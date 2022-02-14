@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "lib": [
+      "es7",
+      "dom"
+    ],
+    "jsx": "react",
+    "strict": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": false,
+    "noUnusedParameters": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "semi": [
+        "../node_modules/@douyinfe/semi-ui"
+      ],
+      "semi-icons": [
+        "../node_modules/@douyinfe/semi-icons"
+      ]
+    }
+  },
+  "exclude": [
+    "./node_modules",
+    "./config"
+  ]
+}

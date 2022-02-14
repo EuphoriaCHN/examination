@@ -1,0 +1,10 @@
+@import "@/common/styles/utils.scss";
+
+.content-header {
+  &-back {
+    @include flex(flex-start, center, inline-flex);
+    @include layoutPadding(4px);
+    cursor: pointer;
+    padding: 0 8px 5px 0;
+  }
+}

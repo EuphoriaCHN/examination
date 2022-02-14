@@ -1,0 +1,21 @@
+@mixin layoutPadding($size: 8px) {
+  > * {
+    margin-right: $size;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+@mixin flex($justifyContent: center, $alienItems: center, $flex: flex) {
+  display: $flex;
+  justify-content: $justifyContent !important;
+  align-items: $alienItems !important;
+}
+
+@mixin ellipse {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

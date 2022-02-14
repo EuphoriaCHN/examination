@@ -1,0 +1,9 @@
+.site-header {
+  &-nav {
+    &-footer {
+      > * {
+        margin-left: 8px;
+      }
+    }
+  }
+}

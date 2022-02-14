@@ -1,0 +1,29 @@
+@import "@/common/styles/utils.scss";
+
+.select-filter {
+  &-active {
+    .semi-button {
+      &-content {
+        width: 100%;
+
+        &-left {
+          width: calc(100% - 24px);
+          @include flex(space-between);
+          @include layoutPadding(4px);
+
+          .select-filter-active {
+            &-box {
+              width: 100%;
+              @include ellipse();
+            }
+
+            &-info,
+            &-extra {
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
+}

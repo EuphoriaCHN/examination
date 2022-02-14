@@ -1,0 +1,11 @@
+.site-footer {
+  padding: 20px;
+  background-color: rgba(var(--semi-grey-0), 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  a {
+    color: inherit;
+  }
+}

@@ -1,0 +1,9 @@
+@import "@/common/styles/utils.scss";
+
+.question-list {
+  &-opts {
+    margin: 12px 0;
+    @include flex(space-between);
+    @include layoutPadding();
+  }
+}
