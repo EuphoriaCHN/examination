@@ -12,7 +12,7 @@ function Router() {
   return (
     <Routes>
       <Route path={'/management'} element={<Management />} />
-      <Route path={'/questions/create'} element={<CreateQuestion />} />
+      <Route path={'/questions/:type'} element={<CreateQuestion />} />
       <Route path={'/questions'} element={<QuestionsList />} />
       <Route path={'/generate'} element={<AutoGen />} />
       <Route path={'/information'} element={<Information />} />

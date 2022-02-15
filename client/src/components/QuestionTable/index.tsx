@@ -1,9 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import cls from 'classnames';
 import { useTranslation } from '@/i18n';
 
 import { Table, Button, Dropdown, Modal } from 'semi';
-import { IconMore, IconDelete } from 'semi-icons';
+import { IconMore, IconDelete, IconEdit } from 'semi-icons';
 
 import './index.scss';
 
@@ -19,6 +20,7 @@ interface IProps {
 
 function QuestionTable(this: any, props: IProps) {
   const { t } = useTranslation();
+  const _navigate = useNavigate();
 
   const handleClickDeleteQuestion = async (record: IQuestionItem) => {
     Modal.warning({
@@ -47,6 +49,13 @@ function QuestionTable(this: any, props: IProps) {
       <Dropdown
         render={(
           <Dropdown.Menu>
+            <Dropdown.Item
+              icon={<IconEdit />}
+              type={'tertiary'}
+              onClick={() => _navigate('/questions/edit')}
+            >
+              {t('编辑题目')}
+            </Dropdown.Item>
             <Dropdown.Item
               type={'danger'}
               icon={<IconDelete />}

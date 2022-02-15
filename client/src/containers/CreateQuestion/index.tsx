@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from '@/i18n';
 
 import { Question } from '@/api';
@@ -19,6 +19,8 @@ function CreateQuestion() {
   const { t } = useTranslation();
   const formRef = React.useRef<FormApi>();
   const _navigate = useNavigate();
+
+  const { type: pageType = 'create' } = useParams<{ type: 'create' | 'edit' }>();
 
   const handleSubmit = React.useCallback(async () => {
     if (!formRef.current) return;
@@ -55,8 +57,8 @@ function CreateQuestion() {
   return (
     <div className={'create-question'}>
       <ContentHeader
-        title={t('创建题目')}
-        brief={t('在这里创建一个新的面试题目')}
+        title={pageType === 'create' ? t('创建题目') : t('更新题目')}
+        brief={pageType === 'create' ? t('在这里创建一个新的面试题目') : t('更新已有的面试题目')}
         allowGoBack
       />
       <QuestionForm getFormApi={_ => formRef.current = _} />
