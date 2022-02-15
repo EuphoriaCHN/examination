@@ -13,6 +13,14 @@ export class QuestionService {
   ) { }
 
   async list() {
-    return this.questionRepository.findAndCount();
+    return this.questionRepository.findAndCount({
+      order: {
+        updateTime: 'DESC'
+      }
+    });
+  }
+
+  async create(params: Api.Question.CreateRequest) {
+    await this.questionRepository.save(new QuestionModel(params));
   }
 }

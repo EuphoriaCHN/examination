@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-// @loadable-components-start
 import Information from '@/containers/Information';
 import Management from '@/containers/Management';
 import QuestionsList from '@/containers/QuestionsList';
 import CreateQuestion from '@/containers/CreateQuestion';
 import AutoGen from '@/containers/AutoGen';
 import NotFound from '@/containers/NotFound';
-// @loadable-components-end
 
 function Router() {
   return (

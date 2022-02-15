@@ -1,3 +1,5 @@
+/// <reference path="./helper.d.ts" />
+
 interface _IBaseStructure {
   /**
   * ID
@@ -12,17 +14,6 @@ interface _IBaseStructure {
    */
   updateTime: number;
 }
-
-/**
- * 题目难度每具
- */
-const enum QuestionDifficultyLevel {
-  TEST = 0,
-  EASY = 1,
-  NORMAL = 2,
-  HARD = 3,
-  HELL = 4
-};
 
 /**
  * 题目
@@ -47,7 +38,7 @@ interface IQuestionItem extends _IBaseStructure {
   /**
    * 题目难度
    */
-  level: QuestionDifficultyLevel;
+  level: 0 | 1 | 2 | 3 | 4;
   /**
    * 题目热度
    */
@@ -63,6 +54,8 @@ declare namespace Api {
 
     type RequiredPagination = Required<Pagination>;
 
+    type CommonResponse = void;
+
     type ListRequest<T> = T & Pagination;
 
     type ListResponse<T> = {
@@ -75,5 +68,12 @@ declare namespace Api {
     type ListRequest = _Base.ListRequest<{}>;
 
     type ListResponse = _Base.ListResponse<IQuestionItem>;
+
+    type CreateRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+      includes: 'title' | 'content' | 'comment' | 'answer' | 'level',
+      optional: 'comment' | 'answer',
+    }>;
+
+    type CreateResponse = _Base.CommonResponse;
   }
 }

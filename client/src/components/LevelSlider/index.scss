@@ -1,0 +1,28 @@
+.level-slider {
+  $trackColor: (
+    "low": var(--semi-color-success),
+    "mid": var(--semi-color-warning),
+    "high": var(--semi-color-danger),
+  );
+
+  @mixin setSemiTrackColor($color) {
+    .semi-slider-track {
+      background-color: $color;
+    }
+  }
+
+  @each $type, $color in $trackColor {
+    &-#{$type} {
+      @include setSemiTrackColor($color);
+    }
+  }
+
+  .semi-slider-marks {
+    top: 32px;
+
+    .semi-slider-mark {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
+}

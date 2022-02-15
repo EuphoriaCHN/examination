@@ -8,6 +8,9 @@ export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     return next
       .handle()
-      .pipe(map(data => ({ data })));
+      .pipe(map(data => {
+        if (typeof data !== 'undefined') return { data };
+        return { message: 'success' };
+      }));
   }
 }

@@ -31,7 +31,7 @@ function ContentHeader(props: IProps) {
           <span>{t('返回')}</span>
         </Typography.Text>
       ) : null}
-      <Typography.Title heading={5}>{props.title}</Typography.Title>
+      <Typography.Title heading={6}>{props.title}</Typography.Title>
       {!!props.brief && <Typography.Text type={'tertiary'} size={'small'}>{props.brief}</Typography.Text>}
     </header>
   );

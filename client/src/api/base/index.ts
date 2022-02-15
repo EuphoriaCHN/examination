@@ -42,7 +42,7 @@ export abstract class Api {
     });
   }
 
-  protected sign<Req extends object = any, Res extends object = any>(config: AxiosRequestConfig) {
+  protected sign<Req extends object = any, Res extends any = any>(config: AxiosRequestConfig) {
     const _this = this;
 
     return async function (data: Req, overrideConfig: AxiosRequestConfig = {}): Promise<Res> {
@@ -61,7 +61,10 @@ export abstract class Api {
       return _this
         .instance
         .request(requestConfig)
-        .then(res => res.data.data, () => { }) as any;
+        .then(res => res.data.data, err => {
+          console.error(err);
+          return Promise.reject(err);
+        }) as any;
     }
   }
 }

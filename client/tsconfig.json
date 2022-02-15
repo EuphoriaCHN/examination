@@ -32,7 +32,11 @@
       "semi-icons": [
         "../node_modules/@douyinfe/semi-icons"
       ]
-    }
+    },
+    "typeRoots": [
+      "../node_modules/@types",
+      "./src/typings",
+    ]
   },
   "exclude": [
     "./node_modules",

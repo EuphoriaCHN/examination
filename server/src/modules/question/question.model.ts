@@ -17,6 +17,14 @@ export const enum QuestionDifficultyLevel {
 
 @Entity()
 export class QuestionModel extends BaseModel {
+  constructor(opts: Partial<QuestionModel> = {}) {
+    super();
+
+    for (let key in opts) {
+      this[key] = opts[key];
+    }
+  }
+
   /**
    * 题目名称，最长 128 个字符
    */
