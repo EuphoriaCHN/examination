@@ -13,6 +13,11 @@ class QuestionApi extends Api {
     url: '/create',
     method: 'post'
   });
+
+  delete = this.sign<Api.Question.DeleteRequest, Api.Question.DeleteResponse>({
+    url: '/delete',
+    method: 'delete'
+  });
 }
 
 export default new QuestionApi();

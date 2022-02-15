@@ -4,14 +4,17 @@ import { useTranslation } from 'react-i18next';
 
 import { Question } from '@/api';
 
-import { Button, Toast } from 'semi';
+import { Button, Toast, Spin } from 'semi';
 import { IconPlus } from 'semi-icons';
 import ContentHeader from '@/components/ContentHeader';
 import QuestionTable from '@/components/QuestionTable';
 
 import './index.scss';
 
+type QuestionTableProps = GetComponentProps<typeof QuestionTable>;
+
 function QuestionsList() {
+  const [loading, setLoading] = React.useState(false);
   const [questionList, setQuestionList] = React.useState<IQuestionItem[]>([]);
   const [_total, setTotal] = React.useState(0);
 
@@ -20,12 +23,25 @@ function QuestionsList() {
 
   const loadQuestionList = React.useCallback(async () => {
     try {
+      setLoading(true);
       const { data, total } = await Question.list({});
 
       setQuestionList(data);
       setTotal(total);
     } catch (err) {
       Toast.error(t('获取题目列表失败'));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const onDelete = React.useCallback<QuestionTableProps['onDelete']>(async record => {
+    try {
+      await Question.delete({ id: record.id });
+      Toast.success(t('题目已删除'));
+      loadQuestionList();
+    } catch (err) {
+      Toast.error(t('删除题目失败'));
     }
   }, []);
 
@@ -54,6 +70,8 @@ function QuestionsList() {
       <QuestionTable
         dataSource={questionList}
         className={'question-list-table'}
+        onDelete={onDelete}
+        loading={loading}
       />
     </div>
   );

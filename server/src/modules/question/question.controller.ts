@@ -1,4 +1,4 @@
-import { Controller, Get, UseInterceptors, Query, Post, Body, UsePipes } from '@nestjs/common';
+import { Controller, Get, UseInterceptors, Query, Post, Body, UsePipes, Delete } from '@nestjs/common';
 import Joi from 'joi';
 
 import { PaginationResponseInterceptor } from '@/interceptors/paginationResponse.interceptor';
@@ -26,5 +26,13 @@ export class QuestionController {
   }))
   async create(@Body() body: Api.Question.CreateRequest) {
     await this.questionService.create(body);
+  }
+
+  @Delete('/delete')
+  @UsePipes(new JoiValidatorPipe<Api.Question.DeleteRequest>({
+    id: Joi.number().integer().min(0).required()
+  }))
+  async delete(@Body() body: Api.Question.DeleteRequest) {
+    await this.questionService.delete(body);
   }
 }

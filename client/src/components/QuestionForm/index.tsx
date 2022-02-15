@@ -28,6 +28,7 @@ function QuestionForm(props: IProps) {
           max: 128,
           message: t('题目名称最长 128 字符')
         }]}
+        autofocus
       />
       <Form.TextArea
         field={'content'}

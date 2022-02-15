@@ -23,4 +23,10 @@ export class QuestionService {
   async create(params: Api.Question.CreateRequest) {
     await this.questionRepository.save(new QuestionModel(params));
   }
+
+  async delete(params: Api.Question.DeleteRequest) {
+    await this.questionRepository.delete({
+      id: params.id
+    })
+  }
 }
