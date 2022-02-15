@@ -18,6 +18,11 @@ class QuestionApi extends Api {
     url: '/delete',
     method: 'delete'
   });
+
+  update = this.sign<Api.Question.UpdateRequest, Api.Question.UpdateResponse>({
+    url: '/update',
+    method: 'put'
+  });
 }
 
 export default new QuestionApi();

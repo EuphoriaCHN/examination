@@ -6,6 +6,8 @@ import { useTranslation } from '@/i18n';
 import { Table, Button, Dropdown, Modal } from 'semi';
 import { IconMore, IconDelete, IconEdit } from 'semi-icons';
 
+import { useQuestionAtom } from '@/containers/CreateQuestion/store';
+
 import './index.scss';
 
 import type { ColumnProps } from '@douyinfe/semi-ui/lib/es/table/interface';
@@ -21,6 +23,7 @@ interface IProps {
 function QuestionTable(this: any, props: IProps) {
   const { t } = useTranslation();
   const _navigate = useNavigate();
+  const { dispatcher: setCreateQuestionAtom } = useQuestionAtom();
 
   const handleClickDeleteQuestion = async (record: IQuestionItem) => {
     Modal.warning({
@@ -31,6 +34,11 @@ function QuestionTable(this: any, props: IProps) {
       okButtonProps: { type: 'danger' }
     })
   };
+
+  const handleClickUpdateQuestion = React.useCallback((record: IQuestionItem) => {
+    setCreateQuestionAtom(record);
+    _navigate('/questions/edit');
+  }, []);
 
   const columns: ColumnProps<IQuestionItem>[] = [{
     title: t('题目名称'),
@@ -52,7 +60,7 @@ function QuestionTable(this: any, props: IProps) {
             <Dropdown.Item
               icon={<IconEdit />}
               type={'tertiary'}
-              onClick={() => _navigate('/questions/edit')}
+              onClick={handleClickUpdateQuestion.bind(this, record)}
             >
               {t('编辑题目')}
             </Dropdown.Item>

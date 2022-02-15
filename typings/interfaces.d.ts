@@ -81,5 +81,12 @@ declare namespace Api {
     }>;
 
     type DeleteResponse = _Base.CommonResponse;
+
+    type UpdateRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+      includes: 'title' | 'content' | 'comment' | 'answer' | 'level' | 'id',
+      optional: 'title' | 'content' | 'comment' | 'answer' | 'level',
+    }>;
+
+    type UpdateResponse = _Base.CommonResponse;
   }
 }

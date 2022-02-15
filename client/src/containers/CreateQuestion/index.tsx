@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from '@/i18n';
+import { pick } from 'lodash';
 
 import { Question } from '@/api';
 
@@ -9,6 +10,7 @@ import ContentHeader from '@/components/ContentHeader';
 import QuestionForm from '@/components/QuestionForm';
 
 import { STEP } from '@/components/LevelSlider';
+import { useQuestionAtom } from './store';
 
 import type { BaseFormApi as FormApi } from '@douyinfe/semi-foundation/lib/es/form/interface';
 
@@ -19,6 +21,7 @@ function CreateQuestion() {
   const { t } = useTranslation();
   const formRef = React.useRef<FormApi>();
   const _navigate = useNavigate();
+  const [questionAtom] = useQuestionAtom();
 
   const { type: pageType = 'create' } = useParams<{ type: 'create' | 'edit' }>();
 
@@ -37,12 +40,19 @@ function CreateQuestion() {
     fields.level = ~~(fields.level / STEP);
 
     try {
-      await Question.create(fields);
-      Toast.success(t('题目已添加'));
+      if (pageType === 'create') {
+        await Question.create(fields);
+        Toast.success(t('题目已添加'));
+      } else {
+        await Question.update(Object.assign({
+          id: questionAtom?.id
+        }, fields));
+        Toast.success(t('题目已保存'));
+      }
 
       setTimeout(() => _navigate(-1));
     } catch (err) {
-      Toast.error(t('添加题目失败'));
+      Toast.error(pageType === 'create' ? t('添加题目失败') : t('修改题目失败'));
     } finally {
       setLoading(false);
     }
@@ -50,7 +60,13 @@ function CreateQuestion() {
 
   React.useEffect(() => {
     setTimeout(() => {
-      formRef.current?.setValue('level', 25);
+      if (pageType === 'edit' && !!questionAtom) {
+        formRef.current?.setValues(Object.assign({
+          level: questionAtom.level * STEP
+        }, pick(questionAtom, ['title', 'content', 'comment', 'answer'])));
+      } else {
+        formRef.current?.setValue('level', 1 * STEP);
+      }
     });
   }, []);
 
@@ -69,7 +85,7 @@ function CreateQuestion() {
         loading={loading}
         block
       >
-        {t('确认创建')}
+        {pageType === 'create' ? t('确认创建') : t('更新题目')}
       </Button>
     </div>
   );

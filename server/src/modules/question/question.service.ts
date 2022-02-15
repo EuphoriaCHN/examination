@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { omit } from 'lodash';
 
-import { QuestionDifficultyLevel, QuestionModel } from './question.model';
+import { QuestionModel } from './question.model';
 
 import type { Repository } from 'typeorm';
 
@@ -28,5 +29,9 @@ export class QuestionService {
     await this.questionRepository.delete({
       id: params.id
     })
+  }
+
+  async update(params: Api.Question.UpdateRequest) {
+    await this.questionRepository.update({ id: params.id }, omit(params, ['id']));
   }
 }

@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { Question } from '@/api';
 
-import { Button, Toast, Spin } from 'semi';
+import { Button, Toast } from 'semi';
 import { IconPlus } from 'semi-icons';
 import ContentHeader from '@/components/ContentHeader';
 import QuestionTable from '@/components/QuestionTable';
+
+import { useQuestionAtom } from '@/containers/CreateQuestion/store';
 
 import './index.scss';
 
@@ -17,6 +19,8 @@ function QuestionsList() {
   const [loading, setLoading] = React.useState(false);
   const [questionList, setQuestionList] = React.useState<IQuestionItem[]>([]);
   const [_total, setTotal] = React.useState(0);
+
+  const { dispatcher: setCreateQuestionAtom } = useQuestionAtom();
 
   const { t } = useTranslation();
   const _navigate = useNavigate();
@@ -45,6 +49,11 @@ function QuestionsList() {
     }
   }, []);
 
+  const handleOnCreateQuestion = React.useCallback(() => {
+    setCreateQuestionAtom(null);
+    _navigate('/questions/create');
+  }, []);
+
   React.useEffect(() => {
     loadQuestionList();
   }, []);
@@ -61,7 +70,7 @@ function QuestionsList() {
           <Button
             icon={<IconPlus />}
             theme={'solid'}
-            onClick={() => _navigate('/questions/create')}
+            onClick={handleOnCreateQuestion}
           >
             {t('添加题目')}
           </Button>

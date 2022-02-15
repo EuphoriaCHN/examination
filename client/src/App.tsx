@@ -1,5 +1,6 @@
 import React from 'react';
-import i18n, { useTranslation } from '@/i18n';
+import { Provider as JoTaiProvider } from 'jotai';
+import i18n from '@/i18n';
 
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
@@ -15,24 +16,18 @@ const SEMI_LOCALES = {
   'en-US': en_US
 } as const;
 
-function AppCore() {
-  const { i18n } = useTranslation();
-
-  return (
-    <LocaleProvider locale={(SEMI_LOCALES as any)[i18n.language] || zh_CN}>
-      <BrowserRouter>
-        <Layout>
-          <Router />
-        </Layout>
-      </BrowserRouter>
-    </LocaleProvider>
-  );
-}
-
 function App() {
   return (
     <I18nextProvider i18n={i18n}>
-      <AppCore />
+      <LocaleProvider locale={(SEMI_LOCALES as any)[i18n.language] || zh_CN}>
+        <JoTaiProvider>
+          <BrowserRouter>
+            <Layout>
+              <Router />
+            </Layout>
+          </BrowserRouter>
+        </JoTaiProvider>
+      </LocaleProvider>
     </I18nextProvider>
   );
 }

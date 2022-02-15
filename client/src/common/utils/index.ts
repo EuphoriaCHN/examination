@@ -1,5 +1,8 @@
 import React from 'react';
+import { useAtom, WritableAtom } from 'jotai';
 import I18n from '@/i18n';
+
+import type { SetAtom } from 'jotai/core/atom';
 
 export const isProd = /^prod(?:uction)?$/.test(process.env.NODE_ENV ?? '');
 
@@ -13,4 +16,25 @@ export function createOptionalFormLabel(label: React.ReactNode) {
       'span', { style: { color: 'var(--semi-color-text-2)' } }, I18n.t('（选填）')
     )
   );
+}
+
+/**
+ * 快速创建一个 Jotai reducer
+ */
+export function createJotaiHook<
+  Value, Update, Result extends void | Promise<void>
+>(atom: WritableAtom<Value, Update, Result>) {
+  return function (): {
+    value: Value,
+    dispatcher: SetAtom<Update, Result>
+  } & [Value, SetAtom<Update, Result>] {
+    const [value, dispatcher] = useAtom(atom);
+
+    return {
+      0: value,
+      1: dispatcher,
+      value,
+      dispatcher
+    } as any;
+  }
 }
