@@ -1,7 +1,19 @@
-import { Controller, Get, UseInterceptors, Query, Post, Body, UsePipes, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseInterceptors,
+  Query,
+  Post,
+  Body,
+  UsePipes,
+  Delete,
+  Put,
+  ParseIntPipe
+} from '@nestjs/common';
 import Joi from 'joi';
 
 import { PaginationResponseInterceptor } from '@/interceptors/paginationResponse.interceptor';
+import { RecordExistInterceptor } from '@/interceptors/recordExist.interceptor';
 
 import { QuestionService } from './question.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';
@@ -10,8 +22,14 @@ import { JoiValidatorPipe } from '@/pipes/validator.pipe';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) { }
 
+  @Get('/detail')
+  @UseInterceptors(RecordExistInterceptor)
+  async detail(@Query('id', ParseIntPipe) id: number) {
+    return this.questionService.detail(id);
+  }
+
   @Get('/list')
-  @UseInterceptors(new PaginationResponseInterceptor())
+  @UseInterceptors(PaginationResponseInterceptor)
   async list(@Query() query: Api.Question.ListRequest) {
     return this.questionService.list();
   }
@@ -29,6 +47,7 @@ export class QuestionController {
   }
 
   @Delete('/delete')
+  @UseInterceptors(RecordExistInterceptor)
   @UsePipes(new JoiValidatorPipe<Api.Question.DeleteRequest>({
     id: Joi.number().integer().min(0).required()
   }))
@@ -37,6 +56,7 @@ export class QuestionController {
   }
 
   @Put('/update')
+  @UseInterceptors(RecordExistInterceptor)
   @UsePipes(new JoiValidatorPipe<Api.Question.UpdateRequest>({
     id: Joi.number().integer().min(0).required(),
     title: Joi.string().optional().allow('').max(128),

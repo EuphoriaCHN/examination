@@ -13,6 +13,10 @@ export class QuestionService {
     private readonly questionRepository: Repository<QuestionModel>
   ) { }
 
+  async detail(id: number) {
+    return this.questionRepository.findOneOrFail({ id });
+  }
+
   async list() {
     return this.questionRepository.findAndCount({
       order: {
@@ -26,12 +30,14 @@ export class QuestionService {
   }
 
   async delete(params: Api.Question.DeleteRequest) {
-    await this.questionRepository.delete({
-      id: params.id
-    })
+    const record = await this.questionRepository.findOneOrFail({ id: params.id });
+
+    await this.questionRepository.delete(record);
   }
 
   async update(params: Api.Question.UpdateRequest) {
-    await this.questionRepository.update({ id: params.id }, omit(params, ['id']));
+    const record = await this.questionRepository.findOneOrFail({ id: params.id });
+
+    await this.questionRepository.update(record, omit(params, ['id']));
   }
 }

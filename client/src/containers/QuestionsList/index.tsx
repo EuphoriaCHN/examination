@@ -81,6 +81,7 @@ function QuestionsList() {
         className={'question-list-table'}
         onDelete={onDelete}
         loading={loading}
+        onRowClick={record => _navigate(`/questions/detail/${record.id}`)}
       />
     </div>
   );

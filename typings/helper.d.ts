@@ -1,4 +1,6 @@
 declare namespace TypeHelper {
+  type Equal<A, B> = <T>() => T extends X ? 1 : 2 extends <T>() => T extends Y ? 1 : 2 ? true : false;
+
   type _ConvertStructOpts<T> = {
     includes?: keyof T;
     excludes?: keyof T;

@@ -10,7 +10,7 @@ import { useQuestionAtom } from '@/containers/CreateQuestion/store';
 
 import './index.scss';
 
-import type { ColumnProps } from '@douyinfe/semi-ui/lib/es/table/interface';
+import type { ColumnProps, OnRow } from '@douyinfe/semi-ui/lib/es/table/interface';
 
 interface IProps {
   dataSource: IQuestionItem[];
@@ -18,6 +18,7 @@ interface IProps {
   loading?: boolean;
 
   onDelete: (record: IQuestionItem) => Promise<void>;
+  onRowClick?: (record: IQuestionItem, e: React.MouseEvent<Element, MouseEvent>) => void;
 }
 
 function QuestionTable(this: any, props: IProps) {
@@ -39,6 +40,10 @@ function QuestionTable(this: any, props: IProps) {
     setCreateQuestionAtom(record);
     _navigate('/questions/edit');
   }, []);
+
+  const onRow: OnRow<IQuestionItem> = record => ({
+    onClick: ev => props.onRowClick?.(record as IQuestionItem, ev)
+  });
 
   const columns: ColumnProps<IQuestionItem>[] = [{
     title: t('题目名称'),
@@ -88,6 +93,7 @@ function QuestionTable(this: any, props: IProps) {
       dataSource={props.dataSource}
       className={cls(props.className, 'question-table')}
       loading={props.loading}
+      onRow={onRow}
     />
   );
 }

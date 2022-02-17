@@ -65,6 +65,12 @@ declare namespace Api {
   }
 
   namespace Question {
+    type DetailRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+      includes: 'id'
+    }>;
+
+    type DetailResponse = IQuestionItem;
+
     type ListRequest = _Base.ListRequest<{}>;
 
     type ListResponse = _Base.ListResponse<IQuestionItem>;
