@@ -1,0 +1,26 @@
+@import "@/common/styles/utils.scss";
+
+.question-description {
+  box-sizing: border-box;
+  padding: 0 20px;
+
+  &-header {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--semi-color-border);
+
+    &-tags {
+      margin-top: 8px;
+      @include flex(flex-start);
+      @include layoutPadding(32px);
+
+      &-item {
+        @include flex(flex-start);
+        @include layoutPadding();
+      }
+    }
+  }
+
+  &-content {
+    padding: 20px 0;
+  }
+}

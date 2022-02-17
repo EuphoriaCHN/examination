@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { Typography } from 'semi';
 import { IconArrowLeft } from 'semi-icons';
@@ -9,8 +9,8 @@ import './index.scss';
 
 interface IProps {
   breadcrumb?: any[];
-  title: string;
-  brief?: string;
+  title?: React.ReactNode;
+  brief?: React.ReactNode;
   allowGoBack?: boolean;
 }
 
@@ -18,9 +18,31 @@ function ContentHeader(props: IProps) {
   const { t } = useTranslation();
   const _navigate = useNavigate();
 
+  const { breadcrumb, title, brief, allowGoBack } = props;
+
+  const renderTitle = React.useMemo(() => {
+    if (!title) return null;
+
+    if (typeof title === 'string') {
+      return <Typography.Title heading={6}>{title}</Typography.Title>;
+    }
+
+    return title;
+  }, [title]);
+
+  const renderBrief = React.useMemo(() => {
+    if (!brief) return null;
+
+    if (typeof brief === 'string') {
+      return <Typography.Text type={'tertiary'} size={'small'}>{brief}</Typography.Text>;
+    }
+
+    return brief;
+  }, [brief]);
+
   return (
     <header className={'content-header'}>
-      {!!props.allowGoBack ? (
+      {!!allowGoBack ? (
         <Typography.Text
           className={'content-header-back'}
           size={'small'}
@@ -31,8 +53,8 @@ function ContentHeader(props: IProps) {
           <span>{t('返回')}</span>
         </Typography.Text>
       ) : null}
-      <Typography.Title heading={6}>{props.title}</Typography.Title>
-      {!!props.brief && <Typography.Text type={'tertiary'} size={'small'}>{props.brief}</Typography.Text>}
+      {renderTitle}
+      {renderBrief}
     </header>
   );
 }

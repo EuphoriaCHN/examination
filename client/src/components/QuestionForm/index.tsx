@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { Form, Row, Col } from 'semi';
 import LevelSlider from '@/components/LevelSlider';

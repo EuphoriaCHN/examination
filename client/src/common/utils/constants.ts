@@ -21,3 +21,29 @@ export const QuestionDifficultyLabel = {
   [QuestionDifficultyLevel.HARD]: I18n.t('困难'),
   [QuestionDifficultyLevel.HELL]: I18n.t('地狱')
 } as const;
+
+/**
+ * 题目难度 TextColor
+ */
+export const QuestionDifficultyColors = {
+  [QuestionDifficultyLevel.TEST]: {
+    color: 'rgba(var(--semi-light-blue-5), 1)',
+    tagBgc: ''
+  },
+  [QuestionDifficultyLevel.EASY]: {
+    color: 'rgba(var(--semi-green-5), 1)',
+    tagBgc: ''
+  },
+  [QuestionDifficultyLevel.NORMAL]: {
+    color: 'rgba(var(--semi-orange-5), 1)',
+    tagBgc: ''
+  },
+  [QuestionDifficultyLevel.HARD]: {
+    color: 'rgba(var(--semi-red-5), 1)',
+    tagBgc: ''
+  },
+  [QuestionDifficultyLevel.HELL]: {
+    color: 'rgba(var(--semi-pink-5), 1)',
+    tagBgc: ''
+  },
+} as const;

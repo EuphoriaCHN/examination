@@ -1,5 +1,5 @@
 import I18n from 'i18next';
-import { initReactI18next, useTranslation, withTranslation } from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import ICU from 'i18next-icu';
 
 I18n
@@ -22,10 +22,4 @@ I18n
     }
   });
 
-export const LOCALE_LABEL: { [k: string]: string } = {
-  'zh-CN': '简体中文',
-  'en-US': 'English'
-};
-
-export { useTranslation, withTranslation };
 export default I18n;

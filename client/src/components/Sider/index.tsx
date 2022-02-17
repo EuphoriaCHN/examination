@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useTranslation } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { Layout, Nav } from 'semi';
 import {

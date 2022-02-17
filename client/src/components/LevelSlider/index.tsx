@@ -1,6 +1,6 @@
 import React from 'react';
 import cls from 'classnames';
-import { useTranslation } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { Form, Slider } from 'semi';
 

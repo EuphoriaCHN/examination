@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import cls from 'classnames';
-import { useTranslation } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { Table, Button, Dropdown, Modal } from 'semi';
 import { IconMore, IconDelete, IconEdit } from 'semi-icons';

@@ -65,7 +65,7 @@ declare namespace Api {
   }
 
   namespace Question {
-    type DetailRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+    type DetailRequest = TypeHelper.ConvertStructure<IQuestionItem, {
       includes: 'id'
     }>;
 
@@ -75,20 +75,20 @@ declare namespace Api {
 
     type ListResponse = _Base.ListResponse<IQuestionItem>;
 
-    type CreateRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+    type CreateRequest = TypeHelper.ConvertStructure<IQuestionItem, {
       includes: 'title' | 'content' | 'comment' | 'answer' | 'level',
       optional: 'comment' | 'answer',
     }>;
 
     type CreateResponse = _Base.CommonResponse;
 
-    type DeleteRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+    type DeleteRequest = TypeHelper.ConvertStructure<IQuestionItem, {
       includes: 'id'
     }>;
 
     type DeleteResponse = _Base.CommonResponse;
 
-    type UpdateRequest = TypeHelper.ConvertStruct<IQuestionItem, {
+    type UpdateRequest = TypeHelper.ConvertStructure<IQuestionItem, {
       includes: 'title' | 'content' | 'comment' | 'answer' | 'level' | 'id',
       optional: 'title' | 'content' | 'comment' | 'answer' | 'level',
     }>;

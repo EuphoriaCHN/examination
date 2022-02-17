@@ -7,9 +7,13 @@ class QuestionApi extends Api {
     });
   }
 
-  detail = this.sign<Api.Question.DetailRequest, Api.Question.DetailResponse>({ url: '/detail' });
+  detail = this.sign<Api.Question.DetailRequest, Api.Question.DetailResponse>({
+    url: '/detail'
+  });
 
-  list = this.sign<Api.Question.ListRequest, Api.Question.ListResponse>({ url: '/list' });
+  list = this.sign<Api.Question.ListRequest, Api.Question.ListResponse>({
+    url: '/list'
+  });
 
   create = this.sign<Api.Question.CreateRequest, Api.Question.CreateResponse>({
     url: '/create',

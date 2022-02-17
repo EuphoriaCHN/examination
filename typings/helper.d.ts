@@ -33,7 +33,7 @@ declare namespace TypeHelper {
    * };
    * ```
    */
-  type ConvertStruct<T, O extends _ConvertStructOpts<T>> =
+  type ConvertStructure<T, O extends _ConvertStructOpts<T>> =
     (O['includes'] extends keyof T ? Pick<T, O['includes']> : T) extends infer Next ?
     (O['excludes'] extends keyof T ? Omit<Next, O['excludes']> : Next) extends infer Next ?
     (O['optional'] extends keyof T ?

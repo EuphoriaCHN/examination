@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useTranslation } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 import { pick } from 'lodash';
 
 import { Question } from '@/api';

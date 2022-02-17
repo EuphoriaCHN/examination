@@ -1,11 +1,16 @@
 import React from 'react';
-import { useTranslation, LOCALE_LABEL } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 import { useSemiMode } from '@/common/hooks/useSemiMode';
 
 import { Layout, Nav, Dropdown, Button, Tooltip } from 'semi';
 import { IconLanguage, IconSun, IconMoon } from 'semi-icons';
 
 import './index.scss';
+
+const LOCALE_LABEL: { [k: string]: string } = {
+  'zh-CN': '简体中文',
+  'en-US': 'English'
+};
 
 function Header(this: any) {
   const { i18n, t } = useTranslation();
