@@ -4,27 +4,27 @@ export type SemiMode = 'light' | 'dark';
 
 export const THEME_ATTR_NAME = 'theme-mode' as const;
 
+export function getSemiMode() {
+  return document.body.getAttribute(THEME_ATTR_NAME) === 'dark' ? 'dark' : 'light';
+}
+
+export function setSemiMode(theme: SemiMode) {
+  document.body.setAttribute(THEME_ATTR_NAME, theme);
+}
+
 export function useSemiMode() {
-  const [mode, modeDispatcher] = React.useState<SemiMode>('light');
-
-  const getBodyAttr = React.useCallback(() => {
-    return document.body.getAttribute(THEME_ATTR_NAME) === 'dark' ? 'dark' : 'light';
-  }, []);
-
-  const setBodyAttr = React.useCallback((theme: SemiMode) => {
-    document.body.setAttribute(THEME_ATTR_NAME, theme);
-  }, []);
+  const [mode, modeDispatcher] = React.useState<SemiMode>(getSemiMode());
 
   const setMode = React.useCallback<typeof modeDispatcher>(reducer => {
-    const next = typeof reducer === 'function' ? reducer(getBodyAttr()) : reducer;
-    setBodyAttr(next);
+    const next = typeof reducer === 'function' ? reducer(getSemiMode()) : reducer;
+    setSemiMode(next);
   }, []);
 
   React.useEffect(() => {
     const observer = new MutationObserver(function ([mutation]) {
       if (mutation.attributeName !== THEME_ATTR_NAME) return;
 
-      modeDispatcher(getBodyAttr());
+      modeDispatcher(getSemiMode());
     });
 
     observer.observe(document.body, {
