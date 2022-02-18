@@ -16,6 +16,28 @@ interface _IBaseStructure {
 }
 
 /**
+ * 分类
+ */
+interface ICategoryItem extends _IBaseStructure {
+  /**
+   * 分类名称，最长 32 字符
+   */
+  name: string;
+  /**
+   * 分类描述，最长 128 字符
+   */
+  description: string;
+  /**
+   * 子分类
+   */
+  children: ICategoryItem[];
+  /**
+   * 父分类
+   */
+  parent: ICategoryItem | null;
+}
+
+/**
  * 题目
  */
 interface IQuestionItem extends _IBaseStructure {
@@ -94,5 +116,18 @@ declare namespace Api {
     }>;
 
     type UpdateResponse = _Base.CommonResponse;
+  }
+
+  namespace Category {
+    type CreateRequest = TypeHelper.ConvertStructure<ICategoryItem, {
+      includes: 'name' | 'description'
+    }> & {
+      /**
+       * 父分类 ID，如果是 0 则为顶层元素
+       */
+      parentId: number;
+    };
+
+    type CreateResponse = _Base.CommonResponse;
   }
 }

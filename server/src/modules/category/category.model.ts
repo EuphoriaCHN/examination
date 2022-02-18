@@ -5,6 +5,14 @@ import { BaseModel } from '@/models/base.model';
 @Entity()
 @Tree('closure-table')
 export class CategoryModel extends BaseModel {
+  constructor(opts: Partial<CategoryModel> = {}) {
+    super();
+
+    for (let key in opts) {
+      this[key] = opts[key];
+    }
+  }
+
   /**
    * 分类名称，最长 32 字符
    */
