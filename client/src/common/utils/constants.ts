@@ -27,23 +27,23 @@ export const QuestionDifficultyLabel = {
  */
 export const QuestionDifficultyColors = {
   [QuestionDifficultyLevel.TEST]: {
-    color: 'rgba(var(--semi-light-blue-5), 1)',
-    tagBgc: ''
+    color: 'rgba(var(--semi-light-blue-6), 1)',
+    backgroundColor: 'rgba(var(--semi-light-blue-1), 1)'
   },
   [QuestionDifficultyLevel.EASY]: {
-    color: 'rgba(var(--semi-green-5), 1)',
-    tagBgc: ''
+    color: 'rgba(var(--semi-green-6), 1)',
+    backgroundColor: 'rgba(var(--semi-green-1), 1)',
   },
   [QuestionDifficultyLevel.NORMAL]: {
-    color: 'rgba(var(--semi-orange-5), 1)',
-    tagBgc: ''
+    color: 'rgba(var(--semi-orange-6), 1)',
+    backgroundColor: 'rgba(var(--semi-orange-1), 1)'
   },
   [QuestionDifficultyLevel.HARD]: {
-    color: 'rgba(var(--semi-red-5), 1)',
-    tagBgc: ''
+    color: 'rgba(var(--semi-red-6), 1)',
+    backgroundColor: 'rgba(var(--semi-red-1), 1)',
   },
   [QuestionDifficultyLevel.HELL]: {
-    color: 'rgba(var(--semi-pink-5), 1)',
-    tagBgc: ''
+    color: 'rgba(var(--semi-pink-6), 1)',
+    backgroundColor: 'rgba(var(--semi-pink-1), 1)',
   },
 } as const;

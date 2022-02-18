@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import cls from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Table, Button, Dropdown, Modal } from 'semi';
+import { Table, Button, Dropdown, Modal, Tag } from 'semi';
 import { IconMore, IconDelete, IconEdit } from 'semi-icons';
 
 import { useQuestionAtom } from '@/containers/CreateQuestion/store';
@@ -11,6 +11,7 @@ import { useQuestionAtom } from '@/containers/CreateQuestion/store';
 import './index.scss';
 
 import type { ColumnProps, OnRow } from '@douyinfe/semi-ui/lib/es/table/interface';
+import { QuestionDifficultyColors, QuestionDifficultyLabel, QuestionDifficultyLevel } from '@/common/utils/constants';
 
 interface IProps {
   dataSource: IQuestionItem[];
@@ -26,15 +27,15 @@ function QuestionTable(this: any, props: IProps) {
   const _navigate = useNavigate();
   const { dispatcher: setCreateQuestionAtom } = useQuestionAtom();
 
-  const handleClickDeleteQuestion = async (record: IQuestionItem) => {
+  const handleClickDeleteQuestion = React.useCallback(async (record: IQuestionItem) => {
     Modal.warning({
       title: t('删除题目？'),
       content: t('删除后不可恢复'),
       okText: t('删除'),
       onOk: () => props.onDelete(record),
       okButtonProps: { type: 'danger' }
-    })
-  };
+    });
+  }, [props.onDelete]);
 
   const handleClickUpdateQuestion = React.useCallback((record: IQuestionItem) => {
     setCreateQuestionAtom(record);
@@ -45,12 +46,18 @@ function QuestionTable(this: any, props: IProps) {
     onClick: ev => props.onRowClick?.(record as IQuestionItem, ev)
   });
 
-  const columns: ColumnProps<IQuestionItem>[] = [{
+  const columns = React.useMemo<ColumnProps<IQuestionItem>[]>(() => [{
     title: t('题目名称'),
     dataIndex: 'title'
   }, {
     title: t('题目难度'),
-    dataIndex: 'level'
+    dataIndex: 'level',
+    render: (level: QuestionDifficultyLevel) => {
+      const colors = QuestionDifficultyColors[level] || {};
+      const label = QuestionDifficultyLabel[level] || 'Unknown';
+
+      return <Tag style={colors}>{label}</Tag>;
+    }
   }, {
     title: t('更新时间'),
     dataIndex: 'updateTime',
@@ -85,7 +92,7 @@ function QuestionTable(this: any, props: IProps) {
         <Button icon={<IconMore />} type={'tertiary'} />
       </Dropdown>
     )
-  }];
+  }], [handleClickDeleteQuestion]);
 
   return (
     <Table
