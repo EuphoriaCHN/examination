@@ -1,0 +1,43 @@
+@import "@/common/styles/utils.scss";
+
+.highlight-code {
+  padding: 24px 24px 16px;
+  background-color: var(--semi-color-fill-0);
+  border: 1px solid var(--semi-color-border);
+  border-radius: 8px;
+  position: relative;
+
+  &-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 6px;
+    font-size: 12px;
+    color: var(--semi-color-text-2);
+
+    @include flex(flex-end);
+    @include layoutPadding();
+
+    &-copy {
+      @include flex();
+    }
+  }
+
+  &-line {
+    display: table-row;
+
+    &-no {
+      display: table-cell;
+      text-align: right;
+      padding-right: 1em;
+      user-select: none;
+      opacity: 0.5;
+    }
+
+    &-content {
+      display: table-cell;
+    }
+  }
+}

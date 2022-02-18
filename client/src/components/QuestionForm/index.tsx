@@ -12,6 +12,10 @@ type FormProps = GetComponentProps<typeof Form>;
 
 type IProps = Exclude<Partial<FormProps>, 'ref'>;
 
+function getSemiTextareaScrollStyle(maxLine: number): React.CSSProperties {
+  return { maxHeight: 20 * maxLine, overflowY: 'scroll' };
+}
+
 function QuestionForm(props: IProps) {
   const { t } = useTranslation();
 
@@ -38,6 +42,8 @@ function QuestionForm(props: IProps) {
           required: true,
           message: t('题面为必填项')
         }]}
+        style={getSemiTextareaScrollStyle(15)}
+        autosize
       />
       <Form.TextArea
         field={'comment'}

@@ -32,12 +32,16 @@ export class QuestionService {
   async delete(params: Api.Question.DeleteRequest) {
     const record = await this.questionRepository.findOneOrFail({ id: params.id });
 
-    await this.questionRepository.delete(record);
+    await this.questionRepository.remove(record);
   }
 
   async update(params: Api.Question.UpdateRequest) {
     const record = await this.questionRepository.findOneOrFail({ id: params.id });
 
-    await this.questionRepository.update(record, omit(params, ['id']));
+    for (let key in omit(params, ['id'])) {
+      record[key] = params[key];
+    }
+
+    await this.questionRepository.save(record);
   }
 }
