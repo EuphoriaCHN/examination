@@ -32,6 +32,15 @@ export class CategoryService {
     return getManager().getTreeRepository(CategoryModel).findTrees();
   }
 
+  async update(params: Api.Category.UpdateRequest) {
+    const record = await this.categoryRepository.findOneOrFail({ id: params.id });
+
+    !!params.description && (record.description = params.description);
+    !!params.name && (record.description = params.name);
+
+    await this.categoryRepository.save(record);
+  }
+
   async delete(params: Api.Category.DeleteRequest) {
     const record = await this.categoryRepository.findOne({ id: params.id });
 

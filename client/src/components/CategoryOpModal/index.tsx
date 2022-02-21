@@ -9,8 +9,10 @@ import type { BaseFormApi as FormApi } from '@douyinfe/semi-foundation/lib/es/fo
 interface IProps {
   visible: boolean;
   onCancel: () => void;
-  onOk: (data: { name: string, description: string }) => Promise<unknown>;
+  onCreate: (data: { name: string, description: string }) => Promise<unknown>;
+  onUpdate: (data: { name: string, description: string }) => Promise<unknown>;
   record?: ICategoryItem | null;
+  type: 'create' | 'update';
 }
 
 function CategoryOpModal(props: IProps) {
@@ -28,11 +30,14 @@ function CategoryOpModal(props: IProps) {
     setLoading(true);
     const { name, description = '' } = formApiRef.current!.getValues();
 
-    await props.onOk({ name, description });
-    setLoading(false);
-  }, [props.onOk]);
+    const cb = props.type === 'update' ? props.onUpdate : props.onCreate;
 
-  const renderHeader = (
+    await cb({ name, description });
+
+    setLoading(false);
+  }, [props.type, props.onCreate, props.onUpdate]);
+
+  const renderHeader = props.type === 'update' ? null : (
     <Typography.Paragraph type={'tertiary'}>
       {
         !!props.record?.id ?
@@ -42,9 +47,22 @@ function CategoryOpModal(props: IProps) {
     </Typography.Paragraph>
   );
 
+  React.useEffect(() => {
+    if (!props.visible) return;
+
+    if (props.type === 'update' && !!props.record?.id) {
+      setTimeout(() => {
+        formApiRef.current?.setValues({
+          name: props.record?.name || '',
+          description: props.record?.description || ''
+        });
+      });
+    }
+  }, [props.visible, props.type]);
+
   return (
     <Modal
-      title={t('新建分类')}
+      title={props.type === 'create' ? t('新建分类') : t('更新分类')}
       onCancel={loading ? undefined : props.onCancel}
       onOk={handleSubmit}
       okButtonProps={{ loading }}

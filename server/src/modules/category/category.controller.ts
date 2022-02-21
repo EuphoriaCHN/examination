@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Post,
+  Put,
   Query,
   UseInterceptors,
   UsePipes
@@ -33,6 +34,12 @@ export class CategoryController {
   @Get('/list')
   async list(@Query() query: Api.Category.ListRequest) {
     return this.categoryService.list(query);
+  }
+
+  @Put('/update')
+  @UseInterceptors(RecordExistInterceptor)
+  async update(@Body() body: Api.Category.UpdateRequest) {
+    return this.categoryService.update(body);
   }
 
   @Delete('/delete')

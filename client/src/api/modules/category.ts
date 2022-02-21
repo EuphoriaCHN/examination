@@ -16,6 +16,11 @@ class CategoryApi extends Api {
     method: 'post'
   });
 
+  update = this.sign<Api.Category.UpdateRequest, Api.Category.UpdateResponse>({
+    url: '/update',
+    method: 'put'
+  });
+
   delete = this.sign<Api.Category.DeleteRequest, Api.Category.DeleteResponse>({
     url: '/delete',
     method: 'delete'

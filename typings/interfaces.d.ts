@@ -38,6 +38,20 @@ interface ICategoryItem extends _IBaseStructure {
 }
 
 /**
+ * 标签
+ */
+interface ITagItem extends _IBaseStructure {
+  /**
+   * 标签名称，最长 32 字符
+   */
+  name: string;
+  /**
+   * 标签描述，最长 128 字符
+   */
+  description: string;
+}
+
+/**
  * 题目
  */
 interface IQuestionItem extends _IBaseStructure {
@@ -120,7 +134,8 @@ declare namespace Api {
 
   namespace Category {
     type CreateRequest = TypeHelper.ConvertStructure<ICategoryItem, {
-      includes: 'name' | 'description'
+      includes: 'name' | 'description',
+      optional: 'description'
     }> & {
       /**
        * 父分类 ID，如果是 0 则为顶层元素
@@ -133,6 +148,32 @@ declare namespace Api {
     type ListRequest = _Base.ListRequest<{}>;
 
     type ListResponse = ICategoryItem[];
+
+    type UpdateRequest = TypeHelper.ConvertStructure<ICategoryItem, {
+      includes: 'id' | 'name' | 'description',
+      optional: 'name' | 'description',
+    }>;
+
+    type UpdateResponse = _Base.CommonResponse;
+
+    type DeleteRequest = TypeHelper.ConvertStructure<ICategoryItem, {
+      includes: 'id'
+    }>;
+
+    type DeleteResponse = _Base.CommonResponse;
+  }
+
+  namespace Tag {
+    type CreateRequest = TypeHelper.ConvertStructure<ITagItem, {
+      includes: 'name' | 'description',
+      optional: 'description'
+    }>;
+
+    type CreateResponse = _Base.CommonResponse;
+
+    type ListRequest = _Base.ListRequest<{}>;
+
+    type ListResponse = _Base.ListResponse<ITagItem>;
 
     type DeleteRequest = TypeHelper.ConvertStructure<ICategoryItem, {
       includes: 'id'

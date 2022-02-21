@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Spin, Toast, Empty, Button, Tree, Tooltip, Modal, Typography, Input, Row, Col } from 'semi';
-import { IconPlus, IconDelete } from 'semi-icons';
+import { IconPlus, IconDelete, IconEdit } from 'semi-icons';
 import { IllustrationNoContent, IllustrationNoContentDark } from '@douyinfe/semi-illustrations';
 import ContentHeader from '@/components/ContentHeader';
 import CategoryOpModal from '@/components/CategoryOpModal';
@@ -24,6 +24,7 @@ function CategoryManager(this: any) {
   const { mode } = useSemiMode();
   const [loading, setLoading] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [opType, setOpType] = React.useState<'create' | 'update'>('create');
 
   const opRecordRef = React.useRef<null | ICategoryItem>(null);
 
@@ -66,12 +67,13 @@ function CategoryManager(this: any) {
     opRecordRef.current = null;
   }, []);
 
-  const handleOpenCategoryOpModal = React.useCallback((record?: ICategoryItem | null) => {
-    setModalVisible(true);
+  const handleOpenCategoryOpModal = React.useCallback((record: ICategoryItem | null, type: typeof opType) => {
     opRecordRef.current = record ?? null;
+    setOpType(type);
+    setModalVisible(true);
   }, []);
 
-  const handleCategoryOpModalSubmit = React.useCallback(async (
+  const handleCategoryOpModalCreate = React.useCallback(async (
     data: { name: string, description: string }
   ) => {
     try {
@@ -81,13 +83,33 @@ function CategoryManager(this: any) {
         parentId: opRecordRef.current?.id || 0
       });
 
-      Toast.success(t('创建分类成功'));
+      Toast.success(t('分类已创建'));
       setTimeout(() => handleCloseOpModal());
 
       // 创建成功后，重新 loading
       loadCategories();
     } catch (err) {
       Toast.error(t('创建分类失败'));
+    }
+  }, []);
+
+  const handleCategoryOpModalUpdate = React.useCallback(async (
+    data: { name: string, description: string }
+  ) => {
+    try {
+      await Category.update({
+        name: data.name,
+        description: data.description,
+        id: opRecordRef.current?.id || 0
+      });
+
+      Toast.success(t('分类已更新'));
+      setTimeout(() => handleCloseOpModal());
+
+      // 重新 loading
+      loadCategories();
+    } catch (err) {
+      Toast.error(t('更新分类失败'));
     }
   }, []);
 
@@ -138,20 +160,30 @@ function CategoryManager(this: any) {
           </Typography.Text>
         </div>
         <div className={'category-manager-content-tree-label-opts'}>
+          <Tooltip content={t('编辑分类')} position={'topRight'}>
+            <IconEdit
+              style={{ color: 'var(--semi-color-text-2)' }}
+              onClick={ev => {
+                ev.stopPropagation();
+                handleOpenCategoryOpModal(treeNode!.record, 'update');
+              }}
+            />
+          </Tooltip>
+          <Tooltip content={t('新建子分类')} position={'topRight'}>
+            <IconPlus
+              style={{ color: 'var(--semi-color-text-2)' }}
+              onClick={ev => {
+                ev.stopPropagation();
+                handleOpenCategoryOpModal(treeNode!.record, 'create');
+              }}
+            />
+          </Tooltip>
           <Tooltip content={t('删除分类')} position={'topRight'}>
             <IconDelete
               style={{ color: 'var(--semi-color-danger)' }}
               onClick={ev => {
                 ev.stopPropagation();
                 handleClickDeleteCategory(treeNode!.record);
-              }}
-            />
-          </Tooltip>
-          <Tooltip content={t('新建子分类')} position={'topRight'}>
-            <IconPlus
-              onClick={ev => {
-                ev.stopPropagation();
-                handleOpenCategoryOpModal(treeNode!.record);
               }}
             />
           </Tooltip>
@@ -170,7 +202,7 @@ function CategoryManager(this: any) {
         <Button
           icon={<IconPlus />}
           theme={'solid'}
-          onClick={handleOpenCategoryOpModal.bind(this, null)}
+          onClick={handleOpenCategoryOpModal.bind(this, null, 'create')}
         >
           {t('新建分类')}
         </Button>
@@ -230,8 +262,10 @@ function CategoryManager(this: any) {
       <CategoryOpModal
         visible={modalVisible}
         onCancel={handleCloseOpModal}
-        onOk={handleCategoryOpModalSubmit}
+        onCreate={handleCategoryOpModalCreate}
+        onUpdate={handleCategoryOpModalUpdate}
         record={opRecordRef.current}
+        type={opType}
       />
     </React.Fragment>
   );
