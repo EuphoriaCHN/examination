@@ -1,6 +1,6 @@
 import React from 'react';
 import Highlight, { defaultProps as highlightDefaultProps, Language } from 'prism-react-renderer';
-import classnames from 'classnames';
+import cls from 'classnames';
 
 import { IconCopy } from 'semi-icons';
 import CopyToClipboard from '@/components/CopyToClipboard';
@@ -28,18 +28,22 @@ function HighlightChildren(props: any) {
   };
 
   return (
-    <pre className={classnames(className, 'highlight-code')}>
+    <pre className={cls(className, 'highlight-code')}>
       {renderLanguage()}
-      {tokens.map((line: any, i: number) => (
-        <div className={'highlight-code-line'} key={i} {...getLineProps({ line, key: i })}>
-          <span key={`highlight-line-no-${i}`} className={'highlight-code-line-no'}>{i + 1}</span>
-          <span className={'highlight-code-line-content'}>
-            {line.map((token: any, key: number) => (
-              <span key={key} {...getTokenProps({ token, key })} />
-            ))}
-          </span>
-        </div>
-      ))}
+      {tokens.map((line: any, i: number) => {
+        const lineProps = getLineProps({ line, key: i });
+
+        return (
+          <div key={i} {...lineProps} className={cls('highlight-code-line', lineProps?.classNames)} >
+            <span key={`highlight-line-no-${i}`} className={'highlight-code-line-no'}>{i + 1}</span>
+            <span className={'highlight-code-line-content'}>
+              {line.map((token: any, key: number) => (
+                <span key={key} {...getTokenProps({ token, key })} />
+              ))}
+            </span>
+          </div>
+        );
+      })}
     </pre>
   );
 }

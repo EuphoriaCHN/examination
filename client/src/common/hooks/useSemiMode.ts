@@ -40,7 +40,7 @@ export function useSemiMode() {
   return { mode, setMode } as const;
 }
 
-export function withSemiMode<C extends React.ComponentType<C>>(Components: C) {
+export function withSemiMode<C extends object>(Components: React.ComponentType<C>) {
   const HOC: any = (props: any) => {
     const context = useSemiMode();
 

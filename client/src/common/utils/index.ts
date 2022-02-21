@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAtom, WritableAtom } from 'jotai';
 import I18n from '@/i18n';
+import { useSemiMode } from '@/common/hooks/useSemiMode';
 
 import type { SetAtom } from 'jotai/core/atom';
 
@@ -36,5 +37,28 @@ export function createJotaiHook<
       value,
       dispatcher
     } as any;
+  }
+}
+
+interface ICreateIllustrationOptions {
+  image: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  darkImage: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+}
+
+/**
+ * Semi Empty 的 Illustration 在切换暗色 / 亮色模式支持感觉有 bug
+ * 快速创建一个 Illustration 组件
+ */
+export function createIllustration(options: ICreateIllustrationOptions) {
+  return function (props: React.HTMLAttributes<HTMLSpanElement>) {
+    const { mode } = useSemiMode();
+
+    return React.createElement(
+      'span',
+      props,
+      mode === 'dark' ?
+        React.createElement(options.darkImage) :
+        React.createElement(options.image)
+    );
   }
 }

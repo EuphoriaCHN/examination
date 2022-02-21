@@ -1,0 +1,18 @@
+@import "@/common/styles/utils.scss";
+
+.fallback-empty {
+  .semi-empty-content {
+    @include flex();
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+
+    .semi-typography-primary {
+      margin-bottom: 24px;
+    }
+  }
+
+  .semi-empty-image {
+    pointer-events: initial;
+  }
+}

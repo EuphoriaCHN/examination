@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { LocaleProvider } from 'semi';
 import Layout from '@/containers/Layout';
 import Router from '@/router';
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
 
 import zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
 import en_US from '@douyinfe/semi-ui/lib/es/locale/source/en_US';
@@ -32,4 +33,4 @@ function App() {
   );
 }
 
-export default App;
+export default withFallbackRenderer()(App);
