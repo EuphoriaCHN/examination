@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import I18n from '@/i18n';
 
 import { Tabs, TabPane } from 'semi';
 import CategoryManager from '@/components/CategoryManager';
@@ -7,23 +7,22 @@ import TagManager from '@/components/TagManager';
 
 import './index.scss';
 
+const TABS = [{
+  label: I18n.t('分类管理'),
+  itemKey: 'categories',
+  Component: CategoryManager
+}, {
+  label: I18n.t('标签管理'),
+  itemKey: 'tags',
+  Component: TagManager
+}] as const;
+
 function Management() {
-  const { t } = useTranslation();
-
-  const TABS = React.useMemo(() => [{
-    label: t('分类管理'),
-    itemKey: 'categories',
-    component: <CategoryManager />
-  }, {
-    label: t('标签管理'),
-    itemKey: 'tags',
-    component: <TagManager />
-  }] as const, []);
-
   return (
     <div className={'management'}>
       <Tabs
         tabPosition={'left'}
+        className={'management-tabs'}
       >
         {TABS.map(item => (
           <TabPane
@@ -31,7 +30,9 @@ function Management() {
             itemKey={item.itemKey}
             key={item.itemKey}
           >
-            {item.component}
+            <div className={'management-content'}>
+              {<item.Component />}
+            </div>
           </TabPane>
         ))}
       </Tabs>

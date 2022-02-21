@@ -1,0 +1,12 @@
+@import "@/common/styles/utils.scss";
+
+.tag-manager {
+  &-header {
+    margin-bottom: 12px;
+  }
+
+  &-opts {
+    @include flex(space-between);
+    margin-bottom: 12px;
+  }
+}

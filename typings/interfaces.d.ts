@@ -129,5 +129,15 @@ declare namespace Api {
     };
 
     type CreateResponse = _Base.CommonResponse;
+
+    type ListRequest = _Base.ListRequest<{}>;
+
+    type ListResponse = ICategoryItem[];
+
+    type DeleteRequest = TypeHelper.ConvertStructure<ICategoryItem, {
+      includes: 'id'
+    }>;
+
+    type DeleteResponse = _Base.CommonResponse;
   }
 }

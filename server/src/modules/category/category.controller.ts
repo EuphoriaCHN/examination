@@ -1,9 +1,19 @@
-import { Body, Controller, Post, UseInterceptors, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Query,
+  UseInterceptors,
+  UsePipes
+} from '@nestjs/common';
 import Joi from 'joi';
 
 import { CategoryService } from './category.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';
 import { RecordExistInterceptor } from '@/interceptors/recordExist.interceptor';
+import { PaginationResponseInterceptor } from '@/interceptors/paginationResponse.interceptor';
 
 @Controller('/category')
 export class CategoryController {
@@ -18,5 +28,19 @@ export class CategoryController {
   }))
   async create(@Body() body: Api.Category.CreateRequest) {
     await this.categoryService.create(body);
+  }
+
+  @Get('/list')
+  async list(@Query() query: Api.Category.ListRequest) {
+    return this.categoryService.list(query);
+  }
+
+  @Delete('/delete')
+  @UseInterceptors(RecordExistInterceptor)
+  @UsePipes(new JoiValidatorPipe<Api.Category.DeleteRequest>({
+    id: Joi.number().integer().min(0).required()
+  }))
+  async delete(@Body() body: Api.Category.DeleteRequest) {
+    await this.categoryService.delete(body);
   }
 }

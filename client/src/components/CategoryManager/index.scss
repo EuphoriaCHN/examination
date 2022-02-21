@@ -1,0 +1,35 @@
+@import "@/common/styles/utils.scss";
+
+.category-manager {
+  &-header {
+    margin-bottom: 12px;
+  }
+
+  &-content {
+    &-tree {
+      .semi-tree-option > .semi-icon {
+        // Hack 一下，不想去调 Expand Icon 样式了
+        transform: translateY(-8px);
+
+        &[aria-label="Collapse the tree item"] {
+          transform: translateY(-8px) rotate(270deg);
+        }
+      }
+
+      &-label {
+        padding: 4px 16px 4px 4px;
+        @include flex(space-between);
+
+        &-opts {
+          @include flex();
+          @include layoutPadding(12px);
+          visibility: hidden;
+        }
+
+        &:hover &-opts {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}

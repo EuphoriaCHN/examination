@@ -1,5 +1,21 @@
 .management {
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
-  padding: 40px 20px;
+
+  &-tabs {
+    height: 100%;
+
+    > .semi-tabs-bar {
+      width: 200px;
+    }
+  }
+
+  &-content {
+    box-sizing: border-box;
+    padding: 0 20px;
+    // header 60px + footer 60px
+    // semi layout padding top 32px + bottom 32px
+    min-height: calc(100vh - 120px - 64px);
+  }
 }

@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { omit } from 'lodash';
 
 import { CategoryModel } from './category.model';
 
-import type { Repository } from 'typeorm';
+import { Repository, getManager } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
@@ -26,5 +26,19 @@ export class CategoryService {
     newRecord.parent = parent;
 
     return this.categoryRepository.save(newRecord);
+  }
+
+  async list(params: Api.Category.ListRequest) {
+    return getManager().getTreeRepository(CategoryModel).findTrees();
+  }
+
+  async delete(params: Api.Category.DeleteRequest) {
+    const record = await this.categoryRepository.findOne({ id: params.id });
+
+    if (Array.isArray(record.children) && !!record.children.length) {
+      throw new BadRequestException('Cascading prohibited');
+    }
+
+    await this.categoryRepository.remove(record);
   }
 }

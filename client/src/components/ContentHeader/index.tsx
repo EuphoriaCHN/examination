@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import cls from 'classnames';
 
 import { Typography } from 'semi';
 import { IconArrowLeft } from 'semi-icons';
@@ -12,6 +13,9 @@ interface IProps {
   title?: React.ReactNode;
   brief?: React.ReactNode;
   allowGoBack?: boolean;
+
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 function ContentHeader(props: IProps) {
@@ -41,7 +45,7 @@ function ContentHeader(props: IProps) {
   }, [brief]);
 
   return (
-    <header className={'content-header'}>
+    <header className={cls('content-header', props.className)} style={props.style}>
       {!!allowGoBack ? (
         <Typography.Text
           className={'content-header-back'}
