@@ -175,6 +175,13 @@ declare namespace Api {
 
     type ListResponse = _Base.ListResponse<ITagItem>;
 
+    type UpdateRequest = TypeHelper.ConvertStructure<ICategoryItem, {
+      includes: 'id' | 'name' | 'description',
+      optional: 'name' | 'description',
+    }>;
+
+    type UpdateResponse = _Base.CommonResponse;
+
     type DeleteRequest = TypeHelper.ConvertStructure<ICategoryItem, {
       includes: 'id'
     }>;

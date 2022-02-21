@@ -59,7 +59,7 @@ function CategoryManager(this: any) {
   }, []);
 
   React.useEffect(() => {
-    if (!categories.length) loadCategories();
+    loadCategories();
   }, []);
 
   const handleCloseOpModal = React.useCallback(() => {
@@ -212,10 +212,10 @@ function CategoryManager(this: any) {
 
   const treeSearchRender = React.useCallback((searchRenderProps: SearchRenderProps) => (
     <Row>
-      <Col span={8}>
+      <Col span={6}>
         <Input {...searchRenderProps} />
       </Col>
-      <Col span={3} offset={13}>
+      <Col span={3} offset={15}>
         <Button
           icon={<IconPlus />}
           theme={'solid'}

@@ -4,6 +4,14 @@ import { BaseModel } from '@/models/base.model';
 
 @Entity()
 export class TagModel extends BaseModel {
+  constructor(opts: Partial<TagModel> = {}) {
+    super();
+
+    for (let key in opts) {
+      this[key] = opts[key];
+    }
+  }
+
   /**
    * 标签名称，最长 32 字符
    */

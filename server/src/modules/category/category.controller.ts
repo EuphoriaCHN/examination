@@ -14,7 +14,6 @@ import Joi from 'joi';
 import { CategoryService } from './category.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';
 import { RecordExistInterceptor } from '@/interceptors/recordExist.interceptor';
-import { PaginationResponseInterceptor } from '@/interceptors/paginationResponse.interceptor';
 
 @Controller('/category')
 export class CategoryController {
@@ -38,6 +37,11 @@ export class CategoryController {
 
   @Put('/update')
   @UseInterceptors(RecordExistInterceptor)
+  @UsePipes(new JoiValidatorPipe<Api.Category.UpdateRequest>({
+    name: Joi.string().optional().allow('').max(32),
+    description: Joi.string().optional().allow('').max(128),
+    id: Joi.number().required().integer().min(0)
+  }))
   async update(@Body() body: Api.Category.UpdateRequest) {
     return this.categoryService.update(body);
   }

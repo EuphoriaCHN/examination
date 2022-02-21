@@ -7,11 +7,11 @@ import { Table, Button, Dropdown, Modal, Tag } from 'semi';
 import { IconMore, IconDelete, IconEdit } from 'semi-icons';
 
 import { useQuestionAtom } from '@/containers/CreateQuestion/store';
+import { QuestionDifficultyColors, QuestionDifficultyLabel, QuestionDifficultyLevel } from '@/common/utils/constants';
 
 import './index.scss';
 
 import type { ColumnProps, OnRow } from '@douyinfe/semi-ui/lib/es/table/interface';
-import { QuestionDifficultyColors, QuestionDifficultyLabel, QuestionDifficultyLevel } from '@/common/utils/constants';
 
 interface IProps {
   dataSource: IQuestionItem[];
