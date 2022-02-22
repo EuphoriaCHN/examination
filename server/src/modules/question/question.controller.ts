@@ -51,7 +51,7 @@ export class QuestionController {
     tags: Joi.array().items(Joi.number().integer().min(0).strict()).optional(),
   }))
   async create(@Body() body: Api.Question.CreateRequest) {
-    await this.questionService.create(body);
+    return this.questionService.create(body);
   }
 
   @Delete('/delete')

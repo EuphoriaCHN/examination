@@ -56,7 +56,9 @@ export class QuestionService {
       record.tags = await this.tagRepository.findByIds(params.tags);
     }
 
-    await this.questionRepository.save(record);
+    const res = await this.questionRepository.save(record);
+
+    return { id: res.id };
   }
 
   async delete(params: Api.Question.DeleteRequest) {

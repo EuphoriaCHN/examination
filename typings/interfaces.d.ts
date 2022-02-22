@@ -128,7 +128,9 @@ declare namespace Api {
       optional: 'comment' | 'answer' | 'categories' | 'tags',
     }>;
 
-    type CreateResponse = _Base.CommonResponse;
+    type CreateResponse = TypeHelper.ConvertStructure<IQuestionItem, {
+      includes: 'id'
+    }>;
 
     type DeleteRequest = TypeHelper.ConvertStructure<IQuestionItem, {
       includes: 'id'

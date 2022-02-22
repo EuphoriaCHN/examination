@@ -27,7 +27,7 @@ export class CategoryController {
     parentId: Joi.number().required().integer().min(0)
   }))
   async create(@Body() body: Api.Category.CreateRequest) {
-    await this.categoryService.create(body);
+    return this.categoryService.create(body);
   }
 
   @Get('/list')

@@ -25,7 +25,9 @@ export class CategoryService {
     newRecord.children = [];
     newRecord.parent = parent;
 
-    return this.categoryRepository.save(newRecord);
+    const res = await this.categoryRepository.save(newRecord);
+
+    return { id: res.id };
   }
 
   async list(params: Api.Category.ListRequest) {
