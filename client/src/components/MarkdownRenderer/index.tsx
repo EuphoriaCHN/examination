@@ -1,19 +1,68 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useTranslation } from 'react-i18next';
 
 import remarkGfm from 'remark-gfm';
 import { MarkdownComponents } from './components';
+import { Skeleton, Empty } from 'semi';
+import { IllustrationNoContent, IllustrationNoContentDark } from '@douyinfe/semi-illustrations';
+
+import { createIllustration } from '@/common/utils';
 
 import './index.scss';
 
-function MarkdownRenderer(props: { children: string }) {
+const Illustration = createIllustration({
+  image: IllustrationNoContent,
+  darkImage: IllustrationNoContentDark
+});
+
+interface IProps {
+  children: string;
+  loading?: boolean;
+  renderEmpty?: boolean | React.ReactNode | (() => React.ReactNode);
+}
+
+function MarkdownRenderer(props: IProps) {
+  const { t } = useTranslation();
+
+  const renderContent = () => {
+    if (!!props.renderEmpty && !props.children) {
+      let el: React.ReactNode;
+
+      if (typeof props.renderEmpty === 'boolean') {
+        el = <Empty style={{ paddingTop: 24 }} title={t('暂无数据')} image={<Illustration />} />;
+      } else if (typeof props.renderEmpty === 'function') {
+        el = props.renderEmpty();
+      } else {
+        el = props.renderEmpty;
+      }
+
+      return el;
+    }
+
+    return (
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={MarkdownComponents}
+      >
+        {props.children}
+      </ReactMarkdown>
+    );
+  };
+
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      components={MarkdownComponents}
+    <Skeleton
+      placeholder={(
+        <React.Fragment>
+          <Skeleton.Paragraph />
+          <Skeleton.Paragraph style={{ marginTop: 32 }} />
+        </React.Fragment>
+      )}
+      loading={props.loading}
+      active
     >
-      {props.children}
-    </ReactMarkdown>
+      {renderContent()}
+    </Skeleton>
   );
 }
 

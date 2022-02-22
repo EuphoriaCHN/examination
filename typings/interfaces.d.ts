@@ -107,6 +107,10 @@ declare namespace Api {
 
     type DetailResponse = IQuestionItem;
 
+    type RandomRequest = {};
+
+    type RandomResponse = IQuestionItem;
+
     type ListRequest = _Base.ListRequest<{}>;
 
     type ListResponse = _Base.ListResponse<IQuestionItem>;

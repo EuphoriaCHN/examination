@@ -22,6 +22,11 @@ import { JoiValidatorPipe } from '@/pipes/validator.pipe';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) { }
 
+  @Get('/random')
+  async random(@Query() param: Api.Question.RandomRequest) {
+    return this.questionService.random(param);
+  }
+
   @Get('/detail')
   @UseInterceptors(RecordExistInterceptor)
   async detail(@Query('id', ParseIntPipe) id: number) {

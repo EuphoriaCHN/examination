@@ -13,6 +13,7 @@ interface IProps {
   title?: React.ReactNode;
   brief?: React.ReactNode;
   allowGoBack?: boolean;
+  marginBottom?: number;
 
   className?: string;
   style?: React.CSSProperties;
@@ -45,7 +46,10 @@ function ContentHeader(props: IProps) {
   }, [brief]);
 
   return (
-    <header className={cls('content-header', props.className)} style={props.style}>
+    <header
+      className={cls('content-header', props.className)}
+      style={Object.assign(props.style || {}, { marginBottom: props.marginBottom })}
+    >
       {!!allowGoBack ? (
         <Typography.Text
           className={'content-header-back'}

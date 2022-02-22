@@ -9,11 +9,11 @@ import { QuestionDifficultyColors, QuestionDifficultyLevel, QuestionDifficultyLa
 
 import './index.scss';
 
-type QuestionDescriptionRecord = TypeHelper.ConvertStructure<Partial<IQuestionItem>, {
+export type QuestionDescriptionRecord = TypeHelper.ConvertStructure<Partial<IQuestionItem>, {
   required: 'title' | 'id' | 'level' | 'hotCount' | 'content';
 }>;
 
-interface IProps {
+export interface IProps {
   record?: QuestionDescriptionRecord
   loading?: boolean;
 }
@@ -76,18 +76,9 @@ function QuestionDescription(props: IProps) {
         </div>
       </header>
       <div className={'question-description-content'}>
-        <Skeleton
-          placeholder={(
-            <React.Fragment>
-              <Skeleton.Paragraph />
-              <Skeleton.Paragraph style={{ marginTop: 32 }} />
-            </React.Fragment>
-          )}
-          loading={loading}
-          active
-        >
-          <MarkdownRenderer>{record.content}</MarkdownRenderer>
-        </Skeleton>
+        <MarkdownRenderer loading={loading}>
+          {record.content}
+        </MarkdownRenderer>
       </div>
     </div>
   );

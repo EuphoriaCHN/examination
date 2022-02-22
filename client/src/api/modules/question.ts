@@ -11,6 +11,10 @@ class QuestionApi extends Api {
     url: '/detail'
   });
 
+  random = this.sign<Api.Question.RandomRequest, Api.Question.RandomResponse>({
+    url: '/random'
+  });
+
   list = this.sign<Api.Question.ListRequest, Api.Question.ListResponse>({
     url: '/list'
   });

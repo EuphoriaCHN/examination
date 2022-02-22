@@ -28,7 +28,7 @@ function Sider() {
     icon: <IconPieChart2Stroked />
   }, {
     itemKey: 'exercise',
-    text: t('自我练习'),
+    text: `${t('自我练习')} (beta)`,
     icon: <IconTrueFalseStroked />
   }, {
     itemKey: 'generate',

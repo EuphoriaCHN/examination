@@ -1,0 +1,15 @@
+@import "@/common/styles/utils.scss";
+
+.exercise {
+  &-content {
+    height: calc(100vh - 120px - 64px - 38px);
+    overflow-y: auto;
+  }
+
+  &-footer {
+    border-top: 1px solid var(--semi-color-border);
+    padding-top: 8px;
+
+    @include flex(flex-end);
+  }
+}

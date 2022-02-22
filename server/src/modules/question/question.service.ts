@@ -13,6 +13,14 @@ export class QuestionService {
     private readonly questionRepository: Repository<QuestionModel>
   ) { }
 
+  async random(param: Api.Question.RandomRequest) {
+    return this
+      .questionRepository
+      .createQueryBuilder()
+      .orderBy('RANDOM()')
+      .getOne();
+  }
+
   async detail(id: number) {
     return this.questionRepository.findOneOrFail({ id });
   }
