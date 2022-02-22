@@ -67,6 +67,8 @@ function QuestionForm(props: IProps) {
         field={'answer'}
         placeholder={t('请输入题目答案（选填）')}
         label={createOptionalFormLabel(t('答案'))}
+        style={getSemiTextareaScrollStyle(15)}
+        autosize
       />
       {/* 所属分类 & 标签 */}
       <Row gutter={24}>

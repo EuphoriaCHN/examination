@@ -26,7 +26,7 @@ export abstract class Api {
   }
 
   private _bindInterceptors() {
-    this.instance.interceptors.request.use(function (config) {
+    this.instance.interceptors.request.use(async function (config) {
       if (config.method?.toLowerCase() === 'get') {
         for (const paramKey in config.params ?? {}) {
           const val = config.params[paramKey];
@@ -37,6 +37,8 @@ export abstract class Api {
           }
         }
       }
+
+      // await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 800 + 200)));
 
       return config;
     });

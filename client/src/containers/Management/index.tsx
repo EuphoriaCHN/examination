@@ -24,6 +24,7 @@ function Management() {
       <Tabs
         tabPosition={'left'}
         className={'management-tabs'}
+        keepDOM={false}
       >
         {TABS.map(item => (
           <TabPane

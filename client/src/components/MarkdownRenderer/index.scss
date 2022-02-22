@@ -20,12 +20,20 @@
       > .md-ol {
         margin-left: 14px;
       }
+
+      margin-bottom: 4px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
+
+    margin: 8px 0;
   }
 
   &-p {
     line-height: 1.75;
-    margin-bottom: 0.75em;
+    margin-bottom: 0.55em;
   }
 
   &-h1 {
@@ -71,12 +79,37 @@
   }
 
   // 行内代码块
-  &-p > .md-code {
+  &-p > .md-code,
+  &-li > .md-code,
+  &-table td > .md-code {
     font-size: 85%;
     color: var(--semi-color-text-2);
     background-color: var(--semi-color-fill-1);
     padding: 1px 3px;
     margin: 0 2px;
+  }
+
+  &-blockquote {
+    background-color: var(--semi-color-fill-0);
+    margin: 8px 0 24px;
+    padding: 4px 8px 4px 24px;
+    position: relative;
+    color: var(--color-text-1);
+
+    &::before {
+      content: "";
+      height: 100%;
+      width: 12px;
+      background-color: var(--semi-color-fill-2);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    & > .md-p {
+      margin-bottom: 0;
+      font-size: 14px;
+    }
   }
 
   &-pre {

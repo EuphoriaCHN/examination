@@ -48,7 +48,7 @@ function QuestionViewer(props: IProps) {
           tab={t('题解')}
           itemKey='answer'
         >
-          <div style={contentStyle}>
+          <div style={Object.assign({ boxSizing: 'border-box', padding: '20px' }, contentStyle)}>
             <MarkdownRenderer loading={props.loading} renderEmpty>
               {record?.answer || ''}
             </MarkdownRenderer>

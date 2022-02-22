@@ -76,4 +76,5 @@ export const MarkdownComponents: GetComponentProps<typeof ReactMarkdown>['compon
   hr: getComponent('hr'),
   pre: getComponent('pre'),
   code: getComponent(HighlightCodeRenderer),
+  blockquote: getComponent('blockquote')
 } as const;

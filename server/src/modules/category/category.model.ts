@@ -19,7 +19,6 @@ export class CategoryModel extends BaseModel {
   @Column({
     type: 'varchar',
     length: 32,
-    unique: true
   })
   name: string;
 
