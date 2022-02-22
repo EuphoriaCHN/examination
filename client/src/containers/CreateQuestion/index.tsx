@@ -8,6 +8,7 @@ import { Question } from '@/api';
 import { Button, Toast } from 'semi';
 import ContentHeader from '@/components/ContentHeader';
 import QuestionForm from '@/components/QuestionForm';
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
 
 import { STEP } from '@/components/LevelSlider';
 import { useQuestionAtom } from './store';
@@ -91,4 +92,4 @@ function CreateQuestion() {
   );
 }
 
-export default CreateQuestion;
+export default withFallbackRenderer()(CreateQuestion);

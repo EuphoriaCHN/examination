@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
+
 import './index.scss';
 
 function Information() {
@@ -10,4 +12,4 @@ function Information() {
   return <span>Information</span>;
 }
 
-export default Information;
+export default withFallbackRenderer()(Information);

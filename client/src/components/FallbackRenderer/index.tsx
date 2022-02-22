@@ -20,7 +20,7 @@ const Illustration = withMaxClick({
 }));
 
 interface IWithFallbackRendererOptions {
-  /* 暂时没想好 props */
+  homePage?: string;
 }
 
 interface IWithFallbackRendererState {
@@ -60,6 +60,10 @@ export function withFallbackRenderer(options?: IWithFallbackRendererOptions) {
         window.location.reload();
       };
 
+      handleGoHome = () => {
+        window.location.href = options?.homePage ?? '/';
+      };
+
       onMaxClick = () => {
         const { message, stack } = this.state.errorData?.error || {};
 
@@ -82,23 +86,28 @@ export function withFallbackRenderer(options?: IWithFallbackRendererOptions) {
       render() {
         const isError = this.state.isError;
 
-        if (isError) {
-          return (
-            <Empty
-              image={<Illustration onMaxClick={this.onMaxClick} />}
-              className={'fallback-empty'}
-            >
-              <Typography.Title heading={6}>
-                {I18n.t('Ops! 出现了未知的错误')}
-              </Typography.Title>
-              <Button icon={<IconRefresh />} theme={'solid'} onClick={this.handleRefresh}>
-                {I18n.t('刷新页面')}
-              </Button>
-            </Empty>
-          );
+        if (!isError) {
+          return <Component {...this.props} />;
         }
 
-        return <Component {...this.props} />;
+        return (
+          <Empty
+            image={<Illustration onMaxClick={this.onMaxClick} />}
+            className={'fallback-empty'}
+          >
+            <Typography.Title heading={6}>
+              {I18n.t('Ops! 出现了未知的错误')}
+            </Typography.Title>
+            <div className={'fallback-empty-content'}>
+              <Button icon={<IconRefresh />} onClick={this.handleRefresh}>
+                {I18n.t('刷新页面')}
+              </Button>
+              <Button icon={<IconRefresh />} theme={'solid'} onClick={this.handleGoHome}>
+                {I18n.t('回到主页')}
+              </Button>
+            </div>
+          </Empty>
+        );
       }
     }
   }

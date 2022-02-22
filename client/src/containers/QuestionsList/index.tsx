@@ -8,6 +8,7 @@ import { Button, Toast } from 'semi';
 import { IconPlus } from 'semi-icons';
 import ContentHeader from '@/components/ContentHeader';
 import QuestionTable from '@/components/QuestionTable';
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
 
 import { useQuestionAtom } from '@/containers/CreateQuestion/store';
 
@@ -87,4 +88,4 @@ function QuestionsList() {
   );
 }
 
-export default QuestionsList;
+export default withFallbackRenderer()(QuestionsList);

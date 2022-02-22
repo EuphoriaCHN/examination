@@ -2,11 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { Question } from '@/api';
-import QuestionViewer from '@/components/QuestionViewer';
-
 import { Toast } from 'semi';
+import QuestionViewer from '@/components/QuestionViewer';
 import ContentHeader from '@/components/ContentHeader';
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
+
+import { Question } from '@/api';
 
 function QuestionDetail() {
   const [loading, setLoading] = React.useState(false);
@@ -45,4 +46,4 @@ function QuestionDetail() {
   );
 }
 
-export default QuestionDetail;
+export default withFallbackRenderer()(QuestionDetail);

@@ -4,6 +4,7 @@ import I18n from '@/i18n';
 import { Tabs, TabPane } from 'semi';
 import CategoryManager from '@/components/CategoryManager';
 import TagManager from '@/components/TagManager';
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
 
 import './index.scss';
 
@@ -40,4 +41,4 @@ function Management() {
   );
 }
 
-export default Management;
+export default withFallbackRenderer()(Management);

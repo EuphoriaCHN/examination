@@ -1,49 +1,29 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+// @loadable-components-start
 import Information from '@/containers/Information';
 import Management from '@/containers/Management';
 import QuestionsList from '@/containers/QuestionsList';
 import QuestionDetail from '@/containers/QuestionDetail';
 import CreateQuestion from '@/containers/CreateQuestion';
 import AutoGen from '@/containers/AutoGen';
+import Exercise from '@/containers/Exercise';
 import NotFound from '@/containers/NotFound';
-
-import { withFallbackRenderer } from '@/components/FallbackRenderer';
+// @loadable-components-end
 
 function Router() {
-  const ROUTES = [{
-    path: '/management',
-    element: Management
-  }, {
-    path: '/questions/detail/:questionId',
-    element: QuestionDetail
-  }, {
-    path: '/questions/:type',
-    element: CreateQuestion
-  }, {
-    path: '/questions',
-    element: QuestionsList
-  }, {
-    path: '/generate',
-    element: AutoGen
-  }, {
-    path: '/information',
-    element: Information
-  }, {
-    path: '/',
-    element: Information
-  }, {
-    path: '*',
-    element: NotFound
-  }];
-
   return (
     <Routes>
-      {ROUTES.map(({ path, element }) => {
-        const Component = withFallbackRenderer()(element);
-        return <Route path={path} element={<Component />} />;
-      })}
+      <Route path={'/management'} element={<Management />} />
+      <Route path={'/exercise'} element={<Exercise />} />
+      <Route path={'/questions/detail/:questionId'} element={<QuestionDetail />} />
+      <Route path={'/questions/:type'} element={<CreateQuestion />} />
+      <Route path={'/questions'} element={<QuestionsList />} />
+      <Route path={'/generate'} element={<AutoGen />} />
+      <Route path={'/information'} element={<Information />} />
+      <Route path={'/'} element={<Information />} />
+      <Route path={'*'} element={<NotFound />} />
     </Routes>
   );
 }

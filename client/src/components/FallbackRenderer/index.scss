@@ -15,4 +15,8 @@
   .semi-empty-image {
     pointer-events: initial;
   }
+
+  &-content {
+    @include layoutPadding(24px);
+  }
 }

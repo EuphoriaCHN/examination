@@ -7,7 +7,8 @@ import {
   IconPieChart2Stroked,
   IconElementStroked,
   IconOrderedListStroked,
-  IconSettingStroked
+  IconSettingStroked,
+  IconTrueFalseStroked
 } from 'semi-icons';
 
 import './index.scss';
@@ -25,6 +26,10 @@ function Sider() {
     itemKey: 'information',
     text: t('站点信息'),
     icon: <IconPieChart2Stroked />
+  }, {
+    itemKey: 'exercise',
+    text: t('自我练习'),
+    icon: <IconTrueFalseStroked />
   }, {
     itemKey: 'generate',
     text: t('生成题目'),

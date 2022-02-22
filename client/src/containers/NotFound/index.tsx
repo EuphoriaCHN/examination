@@ -1,9 +1,10 @@
 import React from 'react';
 
-// import { Empty } from 'semi';
+import { Empty } from 'semi';
+import { withFallbackRenderer } from '@/components/FallbackRenderer';
 
 function NotFound() {
   return <span>NotFound</span>
 }
 
-export default NotFound;
+export default withFallbackRenderer()(NotFound);
