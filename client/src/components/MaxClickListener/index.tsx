@@ -1,4 +1,5 @@
 import React from 'react';
+import { omit } from 'lodash';
 
 import { Toast } from 'semi';
 
@@ -54,7 +55,7 @@ function withMaxClick(config: IWithMaxClickConfig) {
 
       return (
         <div onClick={handleOnClick}>
-          <Component {...props} />
+          <Component {...omit(props, ['onMaxClick']) as any} />
         </div>
       );
     }

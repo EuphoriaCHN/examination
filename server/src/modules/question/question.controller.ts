@@ -40,12 +40,15 @@ export class QuestionController {
   }
 
   @Post('/create')
+  @UseInterceptors(RecordExistInterceptor)
   @UsePipes(new JoiValidatorPipe<Api.Question.CreateRequest>({
     title: Joi.string().required().max(128),
     content: Joi.string().required(),
     comment: Joi.string().optional().allow(''),
     answer: Joi.string().optional().allow(''),
-    level: Joi.number().integer().optional().min(0).max(4)
+    level: Joi.number().integer().optional().min(0).max(4),
+    categories: Joi.array().items(Joi.number().integer().min(0).strict()).optional(),
+    tags: Joi.array().items(Joi.number().integer().min(0).strict()).optional(),
   }))
   async create(@Body() body: Api.Question.CreateRequest) {
     await this.questionService.create(body);
@@ -68,7 +71,9 @@ export class QuestionController {
     content: Joi.string().optional().allow(''),
     comment: Joi.string().optional().allow(''),
     answer: Joi.string().optional().allow(''),
-    level: Joi.number().integer().optional().min(0).max(4)
+    level: Joi.number().integer().optional().min(0).max(4),
+    categories: Joi.array().items(Joi.number().integer().min(0).strict()).optional(),
+    tags: Joi.array().items(Joi.number().integer().min(0).strict()).optional(),
   }))
   async update(@Body() body: Api.Question.UpdateRequest) {
     await this.questionService.update(body);

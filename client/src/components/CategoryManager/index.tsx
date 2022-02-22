@@ -9,6 +9,7 @@ import CategoryOpModal from '@/components/CategoryOpModal';
 
 import { useSemiMode } from '@/common/hooks/useSemiMode';
 import { useCategoriesAtom } from '@/store/categories';
+import { convertCategoriesToSemiTreeData } from '@/common/utils';
 
 import { Category } from '@/api';
 
@@ -31,19 +32,10 @@ function CategoryManager(this: any) {
   /**
    * categories structure to semi tree data
    */
-  const categoriesTreeData = React.useMemo(() => {
-    function process(items: Array<ICategoryItem>): Array<TreeNodeData> {
-      return items.map(item => ({
-        label: item.name,
-        value: item.id,
-        key: `${item.id}`,
-        children: process(item.children),
-        record: item
-      }) as TreeNodeData)
-    }
-
-    return process(categories);
-  }, [categories]);
+  const categoriesTreeData = React.useMemo(() =>
+    convertCategoriesToSemiTreeData(categories),
+    [categories]
+  );
 
   const loadCategories = React.useCallback(async () => {
     setLoading(true);

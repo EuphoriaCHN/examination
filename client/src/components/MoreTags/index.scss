@@ -1,0 +1,6 @@
+@import "@/common/styles/utils.scss";
+
+.more-tags {
+  @include flex(flex-start);
+  @include layoutPadding();
+}

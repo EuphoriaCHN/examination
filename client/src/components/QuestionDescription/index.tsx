@@ -2,8 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Skeleton, Typography } from 'semi';
-import { IconLikeThumb, IconFlag } from 'semi-icons';
+import { IconLikeThumb, IconFlag, IconLayers, IconColorPalette } from 'semi-icons';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import MoreTags from '@/components/MoreTags';
 
 import { QuestionDifficultyColors, QuestionDifficultyLevel, QuestionDifficultyLabel } from '@/common/utils/constants';
 
@@ -41,6 +42,16 @@ function QuestionDescription(props: IProps) {
       </span>
     ),
     icon: <IconLikeThumb size={'small'} />
+  }, {
+    label: t('分类'),
+    key: 'categories',
+    render: (categories: ICategoryItem[]) => <MoreTags items={categories} maxCount={2} labelKey={'name'} />,
+    icon: <IconLayers size={'small'} />,
+  }, {
+    label: t('标签'),
+    key: 'tags',
+    render: (tags: ITagItem[]) => <MoreTags items={tags} maxCount={2} labelKey={'name'} />,
+    icon: <IconColorPalette size={'small'} />
   }] as const;
 
   return (
@@ -69,7 +80,7 @@ function QuestionDescription(props: IProps) {
               >
                 {item.icon}
                 <span>{item.label}</span>
-                {item.render(record[item.key])}
+                {item.render(record[item.key] as any)}
               </Typography.Text>
             </Skeleton>
           ))}

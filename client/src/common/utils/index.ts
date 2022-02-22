@@ -4,6 +4,7 @@ import I18n from '@/i18n';
 import { useSemiMode } from '@/common/hooks/useSemiMode';
 
 import type { SetAtom } from 'jotai/core/atom';
+import type { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree/interface';
 
 export const isProd = /^prod(?:uction)?$/.test(process.env.NODE_ENV ?? '');
 
@@ -61,4 +62,35 @@ export function createIllustration(options: ICreateIllustrationOptions) {
         React.createElement(options.image)
     );
   }
+}
+
+
+/**
+ * categories structure to semi tree data
+ */
+export function convertCategoriesToSemiTreeData(categories: Array<ICategoryItem>) {
+  function process(items: Array<ICategoryItem>): Array<TreeNodeData> {
+    return items.map(item => ({
+      label: item.name,
+      value: item.id,
+      key: `${item.id}`,
+      children: process(item.children),
+      record: item
+    }) as TreeNodeData)
+  }
+
+  return process(categories);
+}
+
+/**
+ * For stop propagation
+ */
+export function quickStopPropagation<T extends React.SyntheticEvent<any>>(
+  cb?: (ev: T) => void
+) {
+  return function (ev: T) {
+    ev.stopPropagation();
+
+    typeof cb === 'function' && cb(ev);
+  };
 }

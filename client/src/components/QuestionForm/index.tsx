@@ -5,6 +5,9 @@ import { Form, Row, Col } from 'semi';
 import LevelSlider from '@/components/LevelSlider';
 
 import { createOptionalFormLabel } from '@/common/utils';
+import { useTagsAtom } from '@/store/tags';
+import { useCategoriesAtom } from '@/store/categories';
+import { convertCategoriesToSemiTreeData } from '@/common/utils';
 
 import './index.scss';
 
@@ -18,6 +21,16 @@ function getSemiTextareaScrollStyle(maxLine: number): React.CSSProperties {
 
 function QuestionForm(props: IProps) {
   const { t } = useTranslation();
+  const [tags] = useTagsAtom();
+  const [categories] = useCategoriesAtom();
+
+  /**
+   * categories structure to semi tree data
+   */
+  const categoriesTreeData = React.useMemo(() =>
+    convertCategoriesToSemiTreeData(categories),
+    [categories]
+  );
 
   return (
     <Form {...props}>
@@ -58,12 +71,18 @@ function QuestionForm(props: IProps) {
       {/* 所属分类 & 标签 */}
       <Row gutter={24}>
         <Col span={6}>
-          <Form.Select
+          <Form.TreeSelect
             field={'categories'}
             label={createOptionalFormLabel(t('所属分类'))}
             placeholder={t('请选择所属分类（选填）')}
             style={{ width: '100%' }}
+            treeData={categoriesTreeData}
+            searchPosition={'trigger'}
+            checkRelation={'unRelated'}
+            maxTagCount={2}
             dropdownMatchSelectWidth
+            filterTreeNode
+            multiple
           />
         </Col>
         <Col span={6}>
@@ -72,7 +91,14 @@ function QuestionForm(props: IProps) {
             label={createOptionalFormLabel(t('标签'))}
             placeholder={t('请选择标签')}
             style={{ width: '100%' }}
+            optionList={tags.map(item => ({
+              label: item.name,
+              value: item.id
+            }))}
+            maxTagCount={2}
             dropdownMatchSelectWidth
+            multiple
+            filter
           />
         </Col>
         <Col span={12}>

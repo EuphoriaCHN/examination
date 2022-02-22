@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import cls from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Table, Button, Dropdown, Modal, Tag } from 'semi';
+import { Table, Button, Dropdown, Modal, Tag, Tooltip, Typography } from 'semi';
 import { IconMore, IconDelete, IconEdit } from 'semi-icons';
+import MoreTags from '@/components/MoreTags';
 
 import { useQuestionAtom } from '@/containers/CreateQuestion/store';
 import { QuestionDifficultyColors, QuestionDifficultyLabel, QuestionDifficultyLevel } from '@/common/utils/constants';
@@ -12,6 +13,7 @@ import { QuestionDifficultyColors, QuestionDifficultyLabel, QuestionDifficultyLe
 import './index.scss';
 
 import type { ColumnProps, OnRow } from '@douyinfe/semi-ui/lib/es/table/interface';
+import { quickStopPropagation } from '@/common/utils';
 
 interface IProps {
   dataSource: IQuestionItem[];
@@ -65,6 +67,14 @@ function QuestionTable(this: any, props: IProps) {
       updateTime: new Date(timestamp)
     })
   }, {
+    title: t('标签'),
+    dataIndex: 'tags',
+    render: (tags: ITagItem[]) => <MoreTags items={tags} maxCount={1} labelKey={'name'} />
+  }, {
+    title: t('分类'),
+    dataIndex: 'categories',
+    render: (categories: ICategoryItem[]) => <MoreTags items={categories} maxCount={1} labelKey={'name'} />
+  }, {
     render: (record: IQuestionItem) => (
       <Dropdown
         render={(
@@ -89,7 +99,11 @@ function QuestionTable(this: any, props: IProps) {
         clickToHide
         stopPropagation
       >
-        <Button icon={<IconMore />} type={'tertiary'} />
+        <Button
+          icon={<IconMore />}
+          type={'tertiary'}
+          onClick={quickStopPropagation()}
+        />
       </Dropdown>
     )
   }], [handleClickDeleteQuestion]);

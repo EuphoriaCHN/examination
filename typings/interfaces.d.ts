@@ -79,6 +79,14 @@ interface IQuestionItem extends _IBaseStructure {
    * 题目热度
    */
   hotCount: number;
+  /**
+   * 所属分类
+   */
+  categories: ICategoryItem[];
+  /**
+   * 标签集合
+   */
+  tags: ITagItem[];
 }
 
 declare namespace Api {
@@ -116,8 +124,8 @@ declare namespace Api {
     type ListResponse = _Base.ListResponse<IQuestionItem>;
 
     type CreateRequest = TypeHelper.ConvertStructure<IQuestionItem, {
-      includes: 'title' | 'content' | 'comment' | 'answer' | 'level',
-      optional: 'comment' | 'answer',
+      excludes: 'id' | 'createTime' | 'updateTime' | 'hotCount'
+      optional: 'comment' | 'answer' | 'categories' | 'tags',
     }>;
 
     type CreateResponse = _Base.CommonResponse;
@@ -129,7 +137,7 @@ declare namespace Api {
     type DeleteResponse = _Base.CommonResponse;
 
     type UpdateRequest = TypeHelper.ConvertStructure<IQuestionItem, {
-      includes: 'title' | 'content' | 'comment' | 'answer' | 'level' | 'id',
+      excludes: 'createTime' | 'updateTime' | 'hotCount'
       optional: 'title' | 'content' | 'comment' | 'answer' | 'level',
     }>;
 

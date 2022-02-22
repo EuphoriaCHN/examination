@@ -1,0 +1,10 @@
+@import "@/common/styles/utils.scss";
+
+.question-table {
+  &-column {
+    &-tags {
+      @include flex(flex-start);
+      @include layoutPadding();
+    }
+  }
+}
