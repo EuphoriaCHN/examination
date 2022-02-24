@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Row, Col } from 'semi';
+import { Form, Row, Col, withField } from 'semi';
 import LevelSlider from '@/components/LevelSlider';
+import MarkdownEditor from '@/components/MarkdownEditor';
 
 import { createOptionalFormLabel } from '@/common/utils';
 import { useTagsAtom } from '@/store/tags';
@@ -15,8 +16,10 @@ type FormProps = GetComponentProps<typeof Form>;
 
 type IProps = Exclude<Partial<FormProps>, 'ref'>;
 
+const FieldedMarkdownEditor = withField(MarkdownEditor);
+
 function getSemiTextareaScrollStyle(maxLine: number): React.CSSProperties {
-  return { maxHeight: 20 * maxLine, overflowY: 'scroll' };
+  return { maxHeight: 20 * maxLine, overflowY: 'auto' };
 }
 
 function QuestionForm(props: IProps) {
@@ -47,7 +50,7 @@ function QuestionForm(props: IProps) {
         }]}
         autofocus
       />
-      <Form.TextArea
+      <FieldedMarkdownEditor
         field={'content'}
         placeholder={t('请输入题面')}
         label={t('题面')}
@@ -55,20 +58,22 @@ function QuestionForm(props: IProps) {
           required: true,
           message: t('题面为必填项')
         }]}
-        style={getSemiTextareaScrollStyle(15)}
-        autosize
+        maxHeight={300}
+        defaultHidePreviewer
       />
-      <Form.TextArea
+      <FieldedMarkdownEditor
         field={'comment'}
         placeholder={t('请输入题目注释（选填）')}
         label={createOptionalFormLabel(t('注释'))}
+        maxHeight={300}
+        defaultHidePreviewer
       />
-      <Form.TextArea
+      <FieldedMarkdownEditor
         field={'answer'}
         placeholder={t('请输入题目答案（选填）')}
         label={createOptionalFormLabel(t('答案'))}
-        style={getSemiTextareaScrollStyle(15)}
-        autosize
+        maxHeight={300}
+        defaultHidePreviewer
       />
       {/* 所属分类 & 标签 */}
       <Row gutter={24}>

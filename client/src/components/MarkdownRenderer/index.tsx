@@ -20,6 +20,7 @@ interface IProps {
   children: string;
   loading?: boolean;
   renderEmpty?: boolean | React.ReactNode | (() => React.ReactNode);
+  className?: string;
 }
 
 function MarkdownRenderer(props: IProps) {
@@ -44,6 +45,7 @@ function MarkdownRenderer(props: IProps) {
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={MarkdownComponents}
+        className={props.className}
       >
         {props.children}
       </ReactMarkdown>
@@ -58,7 +60,7 @@ function MarkdownRenderer(props: IProps) {
           <Skeleton.Paragraph style={{ marginTop: 32 }} />
         </React.Fragment>
       )}
-      loading={props.loading}
+      loading={!!props.loading}
       active
     >
       {renderContent()}

@@ -1,0 +1,119 @@
+@import "@/common/styles/utils.scss";
+
+.markdown-editor {
+  &-content {
+    @include flex(space-between, flex-start);
+
+    border: 1px solid var(--semi-color-border);
+    border-radius: var(--semi-border-radius-small);
+    position: relative;
+    overflow: hidden;
+
+    .markdown-editor-core-wrapper,
+    .markdown-editor-previewer-wrapper {
+      width: 50%;
+    }
+
+    &:hover {
+      &::before {
+        // background-color: var(--semi-color-fill-1);
+      }
+    }
+
+    &:active {
+      &::before {
+        // background-color: var(--semi-color-fill-2);
+      }
+    }
+
+    &::before {
+      content: "";
+      height: 100%;
+      width: 100%;
+      border-left: 1px solid var(--semi-color-border);
+      position: absolute;
+      left: -50%;
+      background-color: var(--semi-color-fill-0);
+      box-sizing: border-box;
+    }
+
+    &-only-editor {
+      .markdown-editor-core-wrapper {
+        width: 100%;
+      }
+
+      .markdown-editor-previewer-wrapper {
+        width: 0;
+        height: 0;
+        padding: 0;
+      }
+
+      &::before {
+        left: 0;
+        border-left: none;
+      }
+    }
+
+    &-focus {
+      border-color: var(--semi-color-focus-border);
+    }
+
+    &-error {
+      border-color: var(--semi-color-danger-light-default);
+
+      &::before {
+        background-color: var(--semi-color-danger-light-default) !important;
+      }
+
+      &:hover {
+        border-color: var(--semi-color-danger-light-hover);
+
+        &::before {
+          background-color: var(--semi-color-danger-light-hover) !important;
+        }
+      }
+
+      &:active {
+        &::before {
+          // background-color: var(--semi-color-fill-2);
+        }
+      }
+
+      &.markdown-editor-content-focus {
+        border-color: var(--semi-color-danger) !important;
+      }
+    }
+  }
+
+  &-core {
+  }
+
+  &-core-wrapper,
+  &-previewer-wrapper {
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+
+    @include beautyScrollbar();
+  }
+
+  &-core-wrapper {
+    // padding: 4px;
+  }
+
+  &-previewer-wrapper {
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+  &-header {
+    position: relative;
+    height: 24px;
+  }
+
+  &-previewer-switcher {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

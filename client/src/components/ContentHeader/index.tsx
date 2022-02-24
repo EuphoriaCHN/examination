@@ -14,6 +14,7 @@ interface IProps {
   brief?: React.ReactNode;
   allowGoBack?: boolean;
   marginBottom?: number;
+  footer?: React.ReactNode;
 
   className?: string;
   style?: React.CSSProperties;
@@ -50,19 +51,24 @@ function ContentHeader(props: IProps) {
       className={cls('content-header', props.className)}
       style={Object.assign(props.style || {}, { marginBottom: props.marginBottom })}
     >
-      {!!allowGoBack ? (
-        <Typography.Text
-          className={'content-header-back'}
-          size={'small'}
-          type={'tertiary'}
-          onClick={() => _navigate(-1)}
-        >
-          <IconArrowLeft size={'small'} />
-          <span>{t('返回')}</span>
-        </Typography.Text>
-      ) : null}
-      {renderTitle}
-      {renderBrief}
+      <div>
+        {!!allowGoBack ? (
+          <Typography.Text
+            className={'content-header-back'}
+            size={'small'}
+            type={'tertiary'}
+            onClick={() => _navigate(-1)}
+          >
+            <IconArrowLeft size={'small'} />
+            <span>{t('返回')}</span>
+          </Typography.Text>
+        ) : null}
+        {renderTitle}
+        {renderBrief}
+      </div>
+      <div>
+        {props.footer}
+      </div>
     </header>
   );
 }

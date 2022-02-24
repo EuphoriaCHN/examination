@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import cls from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Table, Button, Dropdown, Modal, Tag, Tooltip, Typography } from 'semi';
+import { Table, Button, Dropdown, Modal, Tag } from 'semi';
 import { IconMore, IconDelete, IconEdit } from 'semi-icons';
 import MoreTags from '@/components/MoreTags';
 

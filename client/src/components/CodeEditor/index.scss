@@ -1,0 +1,120 @@
+.code-editor {
+  $editorPadding: 4px 12px !important;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--semi-color-text-0);
+  padding: $editorPadding;
+
+  &-textarea {
+    outline: none;
+    padding: $editorPadding;
+  }
+
+  &-preview {
+    .token.cdata,
+    .token.comment,
+    .token.doctype,
+    .token.prolog {
+      // color: rgb(144, 164, 174);
+      color: var(--semi-color-disabled-text);
+    }
+
+    .code-language {
+      color: var(--semi-color-text-2);
+    }
+
+    .title {
+      // 光标位置有问题
+      // font-weight: 700;
+    }
+
+    .italic {
+      font-style: italic;
+    }
+
+    .strike {
+      text-decoration: line-through;
+    }
+
+    .token.punctuation {
+      // color: rgb(158, 158, 158);
+      color: var(--semi-color-disabled-text);
+    }
+
+    .namespace {
+      opacity: 0.7;
+    }
+
+    .token.boolean,
+    .token.constant,
+    .token.deleted,
+    .token.number,
+    .token.symbol {
+      // color: rgb(233, 30, 99);
+      color: rgba(var(--semi-pink-5), 1);
+    }
+
+    .token.attr-name,
+    .token.builtin,
+    .token.char,
+    .token.inserted,
+    .token.selector,
+    .token.string {
+      // color: rgb(34, 134, 58);
+      color: var(--semi-color-success-active);
+    }
+
+    .style .token.string,
+    .token.entity,
+    .token.operator,
+    .token.url {
+      // color: rgb(121, 85, 72);
+      color: var(--semi-color-tertiary-hover);
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.attr-name,
+    .token.property,
+    .token.keyword {
+      // color: rgb(63, 81, 181);
+      color: rgba(var(--semi-indigo-5), 1);
+    }
+
+    .token.function {
+      // color: rgb(244, 67, 54);
+      color: var(--semi-color-danger);
+    }
+
+    .token.important,
+    .token.regex,
+    .token.variable {
+      // color: rgb(255, 152, 0);
+      color: var(--semi-color-warning);
+    }
+
+    .token.bold,
+    .token.important {
+      // color: rgb(51, 51, 51);
+      color: rgba(var(--semi-grey-8), 1);
+    }
+
+    .token.tag {
+      // color: rgb(34, 134, 58);
+      color: var(--semi-color-success-active);
+    }
+
+    .attr-name {
+      // color: rgb(0, 92, 197);
+      color: var(--semi-color-primary-hover);
+    }
+
+    .token.selector .class,
+    .token.class-name {
+      // color: rgb(111, 66, 193);
+      color: rgba(var(--semi-violet-5), 1);
+    }
+  }
+}
