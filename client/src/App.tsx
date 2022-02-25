@@ -21,13 +21,13 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <LocaleProvider locale={(SEMI_LOCALES as any)[i18n.language] || zh_CN}>
-        <JoTaiProvider>
-          <BrowserRouter>
+        <BrowserRouter>
+          <JoTaiProvider>
             <Layout>
               <Router />
             </Layout>
-          </BrowserRouter>
-        </JoTaiProvider>
+          </JoTaiProvider>
+        </BrowserRouter>
       </LocaleProvider>
     </I18nextProvider>
   );
