@@ -10,9 +10,13 @@ import { TagModule } from '@/modules/tag/tag.module';
 import { QuestionModule } from '@/modules/question/question.module';
 import { TemplateModule } from '@/modules/template/template.module';
 
+// 鉴权
+import { AuthModule } from '@/modules/auth/auth.module';
+
 @Module({
   imports: [
     DatabaseModule,
+    AuthModule,
     UserModule,
     CategoryModule,
     TagModule,

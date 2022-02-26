@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { LocaleProvider } from 'semi';
 import Layout from '@/containers/Layout';
 import Router from '@/router';
+import LoginWrapper from '@/components/LoginWrapper';
 import { withFallbackRenderer } from '@/components/FallbackRenderer';
 
 import zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
@@ -21,13 +22,15 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <LocaleProvider locale={(SEMI_LOCALES as any)[i18n.language] || zh_CN}>
-        <BrowserRouter>
-          <JoTaiProvider>
-            <Layout>
-              <Router />
-            </Layout>
-          </JoTaiProvider>
-        </BrowserRouter>
+        <JoTaiProvider>
+          <BrowserRouter>
+            <LoginWrapper>
+              <Layout>
+                <Router />
+              </Layout>
+            </LoginWrapper>
+          </BrowserRouter>
+        </JoTaiProvider>
       </LocaleProvider>
     </I18nextProvider>
   );

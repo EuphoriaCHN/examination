@@ -89,6 +89,31 @@ interface IQuestionItem extends _IBaseStructure {
   tags: ITagItem[];
 }
 
+/**
+ * 用户
+ */
+interface IUser extends _IBaseStructure {
+  /**
+   * 用户邮箱，最长 128 字符
+   */
+  email: string;
+
+  /**
+   * 用户密码，最长 16 字符
+   */
+  password: string;
+
+  /**
+   * 用户昵称，最长 16 字符
+   */
+  nickname: string;
+
+  /**
+   * 用户等级
+   */
+  permission: 0 | 1 | 2;
+}
+
 declare namespace Api {
   namespace _Base {
     type Pagination = {
@@ -201,5 +226,27 @@ declare namespace Api {
     }>;
 
     type DeleteResponse = _Base.CommonResponse;
+  }
+
+  namespace User {
+    type RegisterRequest = TypeHelper.ConvertStructure<IUser, {
+      includes: 'email' | 'password'
+    }>;
+
+    type RegisterResponse = _Base.CommonResponse;
+
+    type CheckEmailExistRequest = TypeHelper.ConvertStructure<IUser, {
+      includes: 'email'
+    }>;
+
+    type CheckEmailExistResponse = boolean;
+  }
+
+  namespace Auth {
+    type LoginRequest = TypeHelper.ConvertStructure<IUser, {
+      includes: 'email' | 'password'
+    }>;
+
+    type LoginResponse = _Base.CommonResponse;
   }
 }

@@ -1,0 +1,33 @@
+@import "@/common/styles/utils.scss";
+
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--semi-color-bg-0);
+
+  &-content {
+    margin: 0 auto;
+    margin-top: 120px;
+    width: 482px;
+    box-sizing: border-box;
+    padding: 32px;
+    border: 1px solid var(--semi-color-border);
+  }
+
+  &-title {
+    margin-bottom: 20px !important;
+  }
+
+  &-form {
+    margin-bottom: 20px;
+
+    &-item {
+      padding: 12px 0;
+    }
+  }
+
+  &-footer {
+    margin-top: 20px;
+    @include flex(space-between);
+  }
+}

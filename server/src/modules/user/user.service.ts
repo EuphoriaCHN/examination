@@ -11,4 +11,8 @@ export class UserService {
     @InjectRepository(UserModel)
     private usersRepository: Repository<UserModel>
   ) { }
+
+  async getUserByEmail(email: string) {
+    return this.usersRepository.findOne({ email });
+  }
 }

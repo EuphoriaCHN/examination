@@ -9,6 +9,7 @@ import QuestionDetail from '@/containers/QuestionDetail';
 import CreateQuestion from '@/containers/CreateQuestion';
 import AutoGen from '@/containers/AutoGen';
 import Exercise from '@/containers/Exercise';
+import Login from '@/containers/Login';
 import NotFound from '@/containers/NotFound';
 // @loadable-components-end
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path={'/questions'} element={<QuestionsList />} />
       <Route path={'/generate'} element={<AutoGen />} />
       <Route path={'/information'} element={<Information />} />
+      <Route path={'/login'} element={<Login />} />
       <Route path={'/'} element={<Information />} />
       <Route path={'*'} element={<NotFound />} />
     </Routes>
