@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from 'semi';
+import { Button, Toast } from 'semi';
 import { IconSync } from 'semi-icons';
 import { withFallbackRenderer } from '@/components/FallbackRenderer';
 import QuestionViewer from '@/components/QuestionViewer';
@@ -22,10 +22,9 @@ function Exercise() {
 
       const record = await Question.random({});
       setRecord(record);
-
       setLoading(false);
     } catch (err) {
-
+      Toast.error(t('获取题目失败'));
     }
   }, []);
 

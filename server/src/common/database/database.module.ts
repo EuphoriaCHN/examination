@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PATHS, isDatabaseExist } from '@/utils';
+import { UtilsModule } from '@/utils/utils.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: 'better-sqlite3',
-    database: PATHS.database,
+    database: UtilsModule.paths.database,
     autoLoadEntities: true,
-    synchronize: !isDatabaseExist,
+    synchronize: !UtilsModule.isDatabaseExist(),
     // retryAttempts: 1,
     // retryDelay: 1000,
     logging: true

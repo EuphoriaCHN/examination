@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { pick } from 'lodash';
 
 import { UserService } from '@/modules/user/user.service';
-import { compareSaltedHash } from '@/utils';
+import { UtilsService } from '@/utils/utils.service';
 
 import type { UserModel } from '@/modules/user/user.model';
 
@@ -11,20 +11,21 @@ import type { UserModel } from '@/modules/user/user.model';
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly utilsService: UtilsService
   ) { }
 
   async validateUser(email: string, password: string): Promise<UserModel | null> {
     const record = await this.userService.getUserByEmail(email);
 
-    if (!!record && compareSaltedHash(password, record.password)) {
+    if (!!record && this.utilsService.compareSaltedHash(password, record.password)) {
       return record;
     }
 
     return null;
   }
 
-  async login(user: UserModel) {
-    return this.jwtService.sign(pick(user, ['id', 'email', 'permission']));
+  async signJWT<T extends JwtUser>(user: T) {
+    return this.jwtService.sign(pick(user, ['email', 'permission', 'id']));
   }
 }

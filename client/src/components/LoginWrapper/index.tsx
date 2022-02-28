@@ -1,25 +1,44 @@
 import React from 'react';
+import { Auth } from '@/api';
 
 import { Spin } from 'semi';
 
 import { useLoginPage } from '@/common/hooks/useLoginPage';
+import { useUserAtom } from '@/store/user';
 
 function LoginWrapper(props: { children: React.ReactNode }) {
   const [loading, setLoading] = React.useState(true);
+  const { dispatcher } = useUserAtom();
 
   const { routeToLoginPage } = useLoginPage();
+
+  const onSiteUnauthorized = React.useCallback(() => {
+    dispatcher(null);
+    routeToLoginPage();
+  }, [routeToLoginPage]);
 
   React.useEffect(() => {
     setLoading(true);
 
     // Check Login Status
-    setTimeout(() => {
-      // !user
+    Auth.profile().then(user => {
+      dispatcher(user);
+    }, () => {
+      // Toast.error(t('用户未登录'));
+      dispatcher(null);
       routeToLoginPage();
-
+    }).finally(() => {
       setLoading(false);
-    }, 1000);
+    });
   }, []);
+
+  React.useEffect(() => {
+    window.addEventListener('unauthorized', onSiteUnauthorized);
+
+    return () => {
+      window.removeEventListener('unauthorized', onSiteUnauthorized)
+    };
+  }, [onSiteUnauthorized]);
 
   if (loading) {
     return (

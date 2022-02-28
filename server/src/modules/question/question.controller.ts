@@ -8,7 +8,8 @@ import {
   UsePipes,
   Delete,
   Put,
-  ParseIntPipe
+  ParseIntPipe,
+  UseGuards
 } from '@nestjs/common';
 import Joi from 'joi';
 
@@ -17,28 +18,33 @@ import { RecordExistInterceptor } from '@/interceptors/record-exist.interceptor'
 
 import { QuestionService } from './question.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';
+import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
 
 @Controller('/question')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/random')
   async random(@Query() param: Api.Question.RandomRequest) {
     return this.questionService.random(param);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/detail')
   @UseInterceptors(RecordExistInterceptor)
   async detail(@Query('id', ParseIntPipe) id: number) {
     return this.questionService.detail(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/list')
   @UseInterceptors(PaginationResponseInterceptor)
   async list(@Query() query: Api.Question.ListRequest) {
     return this.questionService.list();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/create')
   @UseInterceptors(RecordExistInterceptor)
   @UsePipes(new JoiValidatorPipe<Api.Question.CreateRequest>({
@@ -54,6 +60,7 @@ export class QuestionController {
     return this.questionService.create(body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/delete')
   @UseInterceptors(RecordExistInterceptor)
   @UsePipes(new JoiValidatorPipe<Api.Question.DeleteRequest>({
@@ -63,6 +70,7 @@ export class QuestionController {
     await this.questionService.delete(body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/update')
   @UseInterceptors(RecordExistInterceptor)
   @UsePipes(new JoiValidatorPipe<Api.Question.UpdateRequest>({

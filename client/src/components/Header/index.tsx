@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSemiMode } from '@/common/hooks/useSemiMode';
+import { useUserAtom } from '@/store/user';
 
-import { Layout, Nav, Dropdown, Button, Tooltip } from 'semi';
+import { Layout, Nav, Dropdown, Button, Tooltip, Avatar } from 'semi';
 import { IconLanguage, IconSun, IconMoon } from 'semi-icons';
 
 import './index.scss';
@@ -15,6 +16,7 @@ const LOCALE_LABEL: { [k: string]: string } = {
 function Header(this: any) {
   const { i18n, t } = useTranslation();
   const { mode, setMode } = useSemiMode();
+  const { value: user } = useUserAtom();
 
   const handleChangeLocale = React.useCallback((langCode: string) => {
     i18n.changeLanguage(langCode);
@@ -59,8 +61,11 @@ function Header(this: any) {
           {LOCALE_LABEL[i18n.language]}
         </Button>
       </Dropdown>
+      {!!user && (
+        <Avatar size={'small'} color={'light-blue'}>{user.nickname.slice(0, 2)}</Avatar>
+      )}
     </div>
-  ), [i18n.language, mode]);
+  ), [mode, user]);
 
   return (
     <Layout.Header className={'site-header'}>

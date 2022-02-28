@@ -1,12 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/lib/isEmail';
+
+import { useQuery } from '@/common/hooks/useQuery';
 
 import { Typography, Form, Button, Toast } from 'semi';
 import { IconKey, IconMail } from 'semi-icons';
 import Header from '@/components/Header';
 
-import { User } from '@/api';
+import { Auth, User } from '@/api';
 
 import type { BaseFormApi as FormApi } from '@douyinfe/semi-foundation/lib/es/form/interface';
 
@@ -18,6 +21,8 @@ function Login(this: any) {
 
   const { t } = useTranslation();
   const formApiRef = React.useRef<FormApi>();
+  const _navigate = useNavigate();
+  const { redirect = '/' } = useQuery();
 
   const handleChangePageType = React.useCallback((nextType: typeof pageType) => {
     formApiRef.current?.reset();
@@ -154,12 +159,18 @@ function Login(this: any) {
 
     try {
       setLoading(true);
-    } catch (err) {
 
+      await Auth.login({ email, password });
+
+      Toast.success(t('登录成功'));
+
+      setTimeout(() => _navigate(redirect));
+    } catch (err) {
+      Toast.error(t('登录失败'));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [redirect]);
 
   const handleRegister = React.useCallback(async () => {
     const { email, password } = await validate({

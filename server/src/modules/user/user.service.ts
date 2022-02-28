@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { AuthLevel, UserModel } from './user.model';
-import { hashWithSalt } from '@/utils';
+import { UtilsService } from '@/utils/utils.service';
 
 import type { Repository } from 'typeorm';
 
@@ -10,7 +10,8 @@ import type { Repository } from 'typeorm';
 export class UserService {
   constructor(
     @InjectRepository(UserModel)
-    private usersRepository: Repository<UserModel>
+    private usersRepository: Repository<UserModel>,
+    private utilsService: UtilsService
   ) { }
 
   async getUserByEmail(email: string) {
@@ -20,7 +21,7 @@ export class UserService {
   async register(params: Api.User.RegisterRequest) {
     return this.usersRepository.save(new UserModel({
       email: params.email,
-      password: await hashWithSalt(params.password),
+      password: await this.utilsService.hashWithSalt(params.password),
       nickname: params.email.split('@')[0],
       permission: AuthLevel.USER
     }));

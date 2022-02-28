@@ -10,14 +10,16 @@ import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 
 import { UserModule } from '@/modules/user/user.module';
+import { UtilsModule } from '@/utils/utils.module';
 
 @Module({
   imports: [
     UserModule,
+    UtilsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '24h' },
+      signOptions: { expiresIn: jwtConstants.accessTokenExpiresIn },
     }),
   ],
   providers: [
