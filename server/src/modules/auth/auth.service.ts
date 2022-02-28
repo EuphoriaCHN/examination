@@ -10,7 +10,7 @@ import type { UserModel } from '@/modules/user/user.model';
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    // private readonly jwtService: JwtService
+    private readonly jwtService: JwtService
   ) { }
 
   async validateUser(email: string, password: string): Promise<UserModel | null> {
@@ -29,6 +29,8 @@ export class AuthService {
       id: user.id
     };
 
-    // return this.jwtService.sign(payload);
+    console.log([user.email, user.id]);
+
+    return this.jwtService.sign(payload);
   }
 }
