@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 
 import { UserService } from './user.service';
 
@@ -11,5 +11,10 @@ export class UserController {
     const record = await this.userService.getUserByEmail(email);
 
     return !!record;
+  }
+
+  @Post('/register')
+  async register(@Body() body: Api.User.RegisterRequest) {
+    await this.userService.register(body);
   }
 }
