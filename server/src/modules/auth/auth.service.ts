@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { pick } from 'lodash';
 
 import { UserService } from '@/modules/user/user.service';
 import { compareSaltedHash } from '@/utils';
@@ -24,13 +25,6 @@ export class AuthService {
   }
 
   async login(user: UserModel) {
-    const payload = {
-      email: user.email,
-      id: user.id
-    };
-
-    console.log([user.email, user.id]);
-
-    return this.jwtService.sign(payload);
+    return this.jwtService.sign(pick(user, ['id', 'email', 'permission']));
   }
 }

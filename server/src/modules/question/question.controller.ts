@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import Joi from 'joi';
 
-import { PaginationResponseInterceptor } from '@/interceptors/paginationResponse.interceptor';
-import { RecordExistInterceptor } from '@/interceptors/recordExist.interceptor';
+import { PaginationResponseInterceptor } from '@/interceptors/pagination-response.interceptor';
+import { RecordExistInterceptor } from '@/interceptors/record-exist.interceptor';
 
 import { QuestionService } from './question.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';

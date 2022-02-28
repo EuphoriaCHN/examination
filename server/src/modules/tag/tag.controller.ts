@@ -13,8 +13,8 @@ import Joi from 'joi';
 
 import { TagService } from './tag.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';
-import { RecordExistInterceptor } from '@/interceptors/recordExist.interceptor';
-import { PaginationResponseInterceptor } from '@/interceptors/paginationResponse.interceptor';
+import { RecordExistInterceptor } from '@/interceptors/record-exist.interceptor';
+import { PaginationResponseInterceptor } from '@/interceptors/pagination-response.interceptor';
 
 @Controller('/tag')
 export class TagController {

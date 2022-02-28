@@ -13,7 +13,7 @@ import Joi from 'joi';
 
 import { CategoryService } from './category.service';
 import { JoiValidatorPipe } from '@/pipes/validator.pipe';
-import { RecordExistInterceptor } from '@/interceptors/recordExist.interceptor';
+import { RecordExistInterceptor } from '@/interceptors/record-exist.interceptor';
 
 @Controller('/category')
 export class CategoryController {
