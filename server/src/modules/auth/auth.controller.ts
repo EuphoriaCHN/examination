@@ -18,11 +18,16 @@ export class AuthController {
     private readonly userService: UserService
   ) { }
 
-  @UseInterceptors(new SetResHeaderInterceptor({ authorization: true }))
+  @UseInterceptors(SetResHeaderInterceptor)
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@User() user: UserModel) {
-    return this.authService.signJWT(user);
+    return {
+      token: {
+        authorization: await this.authService.signJWT(user),
+      },
+      data: omit(user, 'password')
+    };
   }
 
   @UseGuards(JwtAuthGuard)

@@ -8,6 +8,7 @@ import { useQuery } from '@/common/hooks/useQuery';
 import { Typography, Form, Button, Toast } from 'semi';
 import { IconKey, IconMail } from 'semi-icons';
 import Header from '@/components/Header';
+import { useUserAtom } from '@/store/user';
 
 import { Auth, User } from '@/api';
 
@@ -23,6 +24,7 @@ function Login(this: any) {
   const formApiRef = React.useRef<FormApi>();
   const _navigate = useNavigate();
   const { redirect = '/' } = useQuery();
+  const { dispatcher: setUser } = useUserAtom();
 
   const handleChangePageType = React.useCallback((nextType: typeof pageType) => {
     formApiRef.current?.reset();
@@ -160,7 +162,8 @@ function Login(this: any) {
     try {
       setLoading(true);
 
-      await Auth.login({ email, password });
+      const user = await Auth.login({ email, password });
+      setUser(user);
 
       Toast.success(t('登录成功'));
 

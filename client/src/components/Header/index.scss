@@ -1,9 +1,9 @@
+@import "@/common/styles/utils.scss";
+
 .site-header {
   &-nav {
     &-footer {
-      > * {
-        margin-left: 8px;
-      }
+      @include layoutPadding(16px);
     }
   }
 }

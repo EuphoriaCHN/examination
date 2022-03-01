@@ -247,7 +247,9 @@ declare namespace Api {
       includes: 'email' | 'password'
     }>;
 
-    type LoginResponse = _Base.CommonResponse;
+    type LoginResponse = TypeHelper.ConvertStructure<IUser, {
+      excludes: 'password'
+    }>;
 
     type ProfileRequest = void;
 
