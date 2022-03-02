@@ -8,11 +8,30 @@ const traverse = require('@babel/traverse').default;
 const { set, get } = require('lodash');
 
 const configs = {
-  func: [/^(?:[iI]18n\.)?t$/],
+  func: [/^(?:i18n\.)?t$/i],
   langs: ['zh-CN', 'en-US'],
 };
 
 const ans = {};
+
+/**
+ * @param {babel.types.CallExpression} node 
+ */
+function getCallExpressionCalleeName(node) {
+  /**
+   * @param {babel.types.MemberExpression} n 
+   */
+  function extractMemberExpression(n) {
+    if (n.type === 'Identifier') return [n.name];
+    if (n.type !== 'MemberExpression') return [''];
+
+    return [...extractMemberExpression(n.object), n.property.name];
+  }
+
+  return node.callee.type === 'MemberExpression' ?
+    extractMemberExpression(node.callee).join('.') :
+    node.callee.name;
+}
 
 (async function () {
   readDirDeep(SRC(), ({ fileName, isFile, filePath }) => {
@@ -23,7 +42,9 @@ const ans = {};
 
     traverse(ast, {
       CallExpression(path) {
-        if (configs.func.some(reg => reg.test(path.node.callee.name))) {
+        const calleeName = getCallExpressionCalleeName(path.node);
+
+        if (configs.func.some(reg => reg.test(calleeName))) {
           const firstArg = path.node.arguments[0];
           if (!!firstArg && firstArg.type === 'StringLiteral') {
             ans[firstArg.value] = '';
@@ -44,18 +65,14 @@ const ans = {};
         Object.keys(localAns[lang]).forEach(key => set(localAns, [lang, key], key));
         break;
       case 'en-US':
-        await Promise.all(
-          Object
-            .keys(localAns[lang])
-            .map(
-              key => baiduTrans(key, 'zh', 'en')
-                .then(
-                  res => get(res, 'data.trans_result.data[0].dst', key),
-                  () => key
-                )
-                .then(transVal => { set(localAns, [lang, key], transVal) })
-            )
-        );
+        // 逐个请求会被 Ban
+        const keys = Object.keys(localAns[lang]);
+        const str = keys.join('\n');
+        const res = await baiduTrans(str, 'zh', 'en');
+        const trans = get(res, 'data.trans_result.data', []);
+        for (let i = 0; i < trans.length; i++) {
+          localAns[lang][keys[i]] = trans[i].dst;
+        }
     }
   }
 

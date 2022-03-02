@@ -55,7 +55,7 @@ function Sider() {
     icon: <IconUserStroked />
   }].filter(item => {
     if (!Array.isArray(item.blockList)) return true;
-    if (!user) return false;
+    if (!user) return true;
     return !item.blockList.includes(user.permission);
   }), [user]);
 
