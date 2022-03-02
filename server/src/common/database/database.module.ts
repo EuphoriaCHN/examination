@@ -9,6 +9,7 @@ import { UtilsModule } from '@/utils/utils.module';
     database: UtilsModule.paths.database,
     autoLoadEntities: true,
     synchronize: !UtilsModule.isDatabaseExist(),
+    // synchronize: true,
     // retryAttempts: 1,
     // retryDelay: 1000,
     logging: true

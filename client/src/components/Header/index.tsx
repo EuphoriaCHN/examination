@@ -60,7 +60,7 @@ function Header(this: any) {
       </Dropdown>
       <UserAvatarMenu />
     </div>
-  ), [mode, UserAvatarMenu]);
+  ), [mode]);
 
   return (
     <Layout.Header className={'site-header'}>

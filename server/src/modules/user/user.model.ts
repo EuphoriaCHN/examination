@@ -40,11 +40,11 @@ export class UserModel extends BaseModel {
   password: string;
 
   /**
-   * 用户昵称，最长 16 字符
+   * 用户昵称，最长 32 字符
    */
   @Column({
     type: 'varchar',
-    length: 16,
+    length: 32,
     default: ''
   })
   nickname: string;

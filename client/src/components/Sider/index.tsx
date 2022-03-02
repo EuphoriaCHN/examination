@@ -8,7 +8,8 @@ import {
   IconElementStroked,
   IconOrderedListStroked,
   IconSettingStroked,
-  IconTrueFalseStroked
+  IconTrueFalseStroked,
+  IconUserStroked
 } from 'semi-icons';
 
 import './index.scss';
@@ -42,6 +43,10 @@ function Sider() {
     itemKey: 'management',
     text: t('站点管理'),
     icon: <IconSettingStroked />
+  }, {
+    itemKey: 'profile',
+    text: t('个人中心'),
+    icon: <IconUserStroked />
   }], []);
 
   React.useLayoutEffect(() => {

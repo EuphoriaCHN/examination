@@ -1,4 +1,6 @@
-import I18n from "@/i18n";
+import I18n from '@/i18n';
+
+export const LOCAL_STORAGE_AUTH_KEY = 'authorization';
 
 /**
  * 题目难度

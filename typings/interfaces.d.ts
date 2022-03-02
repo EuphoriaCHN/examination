@@ -104,7 +104,7 @@ interface IUser extends _IBaseStructure {
   password: string;
 
   /**
-   * 用户昵称，最长 16 字符
+   * 用户昵称，最长 32 字符
    */
   nickname: string;
 
@@ -240,6 +240,18 @@ declare namespace Api {
     }>;
 
     type CheckEmailExistResponse = boolean;
+
+    type UpdateRequest = TypeHelper.ConvertStructure<IUser, {
+      includes: 'nickname'
+    }>;
+
+    type UpdateResponse = _Base.CommonResponse;
+
+    type UpdatePasswordRequest = TypeHelper.ConvertStructure<IUser, {
+      includes: 'password'
+    }> & { newPassword: string; };
+
+    type UpdatePasswordResponse = _Base.CommonResponse;
   }
 
   namespace Auth {

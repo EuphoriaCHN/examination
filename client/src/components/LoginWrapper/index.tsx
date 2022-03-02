@@ -5,6 +5,7 @@ import { Spin } from 'semi';
 
 import { useLoginPage } from '@/common/hooks/useLoginPage';
 import { useUserAtom } from '@/store/user';
+import { getAuthCache } from '@/common/utils';
 
 function LoginWrapper(props: { children: React.ReactNode }) {
   const [loading, setLoading] = React.useState(true);
@@ -19,6 +20,13 @@ function LoginWrapper(props: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     setLoading(true);
+
+    if (!getAuthCache()) {
+      // 本地没有缓存，直接 route
+      routeToLoginPage();
+      setLoading(false);
+      return;
+    }
 
     // Check Login Status
     Auth.profile().then(user => {

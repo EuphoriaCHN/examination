@@ -21,14 +21,19 @@
   &-footer {
     margin-top: 4px;
     border-top: 1px solid var(--semi-color-border);
-    padding: 10px 0;
-    color: var(--semi-color-danger);
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px;
+    padding-left: 0;
+    padding-right: 0;
 
-    &:hover {
-      background-color: var(--semi-color-fill-0);
+    > div {
+      padding: 10px 0;
+      color: var(--semi-color-danger);
+      text-align: center;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        background-color: var(--semi-color-fill-0);
+      }
     }
   }
 }

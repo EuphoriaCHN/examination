@@ -1,22 +1,22 @@
 import I18n from '@/i18n';
+import { LOCAL_STORAGE_AUTH_KEY } from '@/common/utils/constants';
+import { setAuthCache, getAuthCache } from '@/common/utils';
 
 import { Toast } from 'semi';
 
 import type { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
 
-export const AUTHORIZATION = 'authorization';
-
 export async function commonFulfilled(res: AxiosResponse) {
-  const jwtToken = res.headers[AUTHORIZATION];
+  const jwtToken = res.headers[LOCAL_STORAGE_AUTH_KEY];
 
   if (typeof jwtToken === 'string' && !!jwtToken) {
-    localStorage.setItem(AUTHORIZATION, jwtToken);
+    setAuthCache(jwtToken);
   }
 }
 
 export async function commonRejected(err: AxiosError) {
   if (err.response?.status === 401) {
-    localStorage.removeItem(AUTHORIZATION);
+    setAuthCache(null);
 
     Toast.error(I18n.t('登录信息过期'));
 
@@ -41,7 +41,7 @@ export async function commonRequestInterceptors(config: AxiosRequestConfig) {
   if (!config.headers) {
     config.headers = {};
   }
-  config.headers[AUTHORIZATION] = `Bearer ${localStorage.getItem(AUTHORIZATION) ?? ''}`;
+  config.headers[LOCAL_STORAGE_AUTH_KEY] = `Bearer ${getAuthCache() ?? ''}`;
 
   return config;
 }

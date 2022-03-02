@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export function createLoginPageUrl(pathname: string) {
-  return `/login?redirect=${encodeURIComponent(decodeURIComponent(pathname))}`;
+export function createLoginPageUrl(pathname: string, noConcat: boolean = false) {
+  return noConcat ? '/login' : `/login?redirect=${encodeURIComponent(decodeURIComponent(pathname))}`;
 }
 
 export function isLoginPage(pathname: string = window.location.pathname) {
@@ -15,10 +15,10 @@ export function useLoginPage() {
 
   const _isLoginPage = isLoginPage(_location.pathname);
 
-  const routeToLoginPage = React.useCallback((noReplace: boolean = false) => {
+  const routeToLoginPage = React.useCallback((home: boolean = false, noReplace: boolean = false) => {
     if (_isLoginPage) return;
 
-    _navigate(createLoginPageUrl(_location.pathname), { replace: !noReplace });
+    _navigate(createLoginPageUrl(_location.pathname, home), { replace: !noReplace });
   }, [_location.pathname]);
 
   return {

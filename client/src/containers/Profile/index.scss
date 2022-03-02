@@ -1,0 +1,25 @@
+@import "@/common/styles/utils.scss";
+
+.profile {
+  &-content {
+    box-sizing: border-box;
+    padding: 24px 120px;
+
+    @include flex(space-between, flex-start);
+
+    &-avatar {
+      flex-shrink: 0;
+      margin-right: 64px;
+    }
+
+    &-info {
+      flex-basis: 100%;
+
+      &-footer {
+        margin-top: 18px;
+
+        @include layoutPadding(8px);
+      }
+    }
+  }
+}

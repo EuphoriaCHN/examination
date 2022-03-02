@@ -1,7 +1,9 @@
 import React from 'react';
 import { useAtom, WritableAtom } from 'jotai';
+import { noop } from 'lodash';
 import I18n from '@/i18n';
 import { useSemiMode } from '@/common/hooks/useSemiMode';
+import { LOCAL_STORAGE_AUTH_KEY } from './constants';
 
 import type { SetAtom } from 'jotai/core/atom';
 import type { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree/interface';
@@ -93,4 +95,35 @@ export function quickStopPropagation<T extends React.SyntheticEvent<any>>(
 
     typeof cb === 'function' && cb(ev);
   };
+}
+
+/**
+ * 表单校验
+ */
+export function validateForm(
+  data: Array<[rejectCase: boolean, errorMsg: string]>,
+  onError?: (errorMsg: string) => void
+): boolean {
+  const cb = typeof onError === 'function' ? onError : noop;
+
+  for (const res of data) {
+    if (res[0]) {
+      cb(res[1]);
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function setAuthCache(token?: string | null) {
+  if (!!token) {
+    localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, token);
+  } else {
+    localStorage.removeItem(LOCAL_STORAGE_AUTH_KEY);
+  }
+}
+
+export function getAuthCache() {
+  return localStorage.getItem(LOCAL_STORAGE_AUTH_KEY);
 }

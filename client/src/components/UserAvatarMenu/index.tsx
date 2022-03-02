@@ -1,15 +1,29 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUserAtom } from '@/store/user';
+import { setAuthCache } from '@/common/utils';
+import { useLoginPage } from '@/common/hooks/useLoginPage';
 
-import { Avatar, Dropdown, Typography } from 'semi';
+import { Avatar, Dropdown, Toast, Typography } from 'semi';
 import { IconUser } from 'semi-icons';
 
 import './index.scss';
 
 function UserAvatarMenu() {
-  const [user] = useUserAtom();
+  const [user, setUser] = useUserAtom();
   const { t } = useTranslation();
+  const { routeToLoginPage } = useLoginPage();
+  const _navigate = useNavigate();
+
+  const handleOnClickLogout = React.useCallback(() => {
+    // 前端删除 local storage 即可
+    setAuthCache(null);
+    setUser(null);
+
+    Toast.success(t('用户已登出'));
+    routeToLoginPage(true);
+  }, []);
 
   if (!user) return null;
 
@@ -34,11 +48,13 @@ function UserAvatarMenu() {
               </Typography.Paragraph>
             </div>
           </Dropdown.Title>
-          <Dropdown.Item icon={<IconUser />} type={'tertiary'}>
+          <Dropdown.Item icon={<IconUser />} type={'tertiary'} onClick={() => _navigate('/profile')}>
             {t('个人中心')}
           </Dropdown.Item>
           <Dropdown.Title className={'user-avatar-menu-footer'}>
-            {t('退出登录')}
+            <div onClick={handleOnClickLogout}>
+              {t('退出登录')}
+            </div>
           </Dropdown.Title>
         </Dropdown.Menu>
       )}

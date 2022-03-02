@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/lib/isEmail';
 
 import { useQuery } from '@/common/hooks/useQuery';
+import { validateForm } from '@/common/utils';
 
 import { Typography, Form, Button, Toast } from 'semi';
 import { IconKey, IconMail } from 'semi-icons';
@@ -119,31 +120,19 @@ function Login(this: any) {
     const email = formApiRef.current?.getValue(emailField) ?? '';
     const password = formApiRef.current?.getValue(passwordField) ?? '';
 
-    let ans = true;
+    const isEmailError = validateForm([
+      [email.length > 128, t('邮箱长度不能大于 128 字符')],
+      [email.length === 0, t('邮箱是必填项')],
+      [!isEmail(email), t('邮箱格式错误')],
+    ], errMsg => formApiRef.current!.setError(emailField, errMsg));
 
-    if (typeof email !== 'string' || email.length > 128) {
-      formApiRef.current?.setError(emailField, t('邮箱长度不能大于 128 字符'));
-      ans = false;
-    } else if (email.length === 0) {
-      formApiRef.current?.setError(emailField, t('邮箱是必填项'));
-      ans = false;
-    } else if (!isEmail(email)) {
-      formApiRef.current?.setError(emailField, t('邮箱格式错误'));
-      ans = false;
-    }
+    const isPasswordError = validateForm([
+      [password.length > 16, t('密码长度不能大于 16 字符')],
+      [password.length === 0, t('密码是必填项')],
+      [password.length < 6, t('密码长度不能小于 6 字符')],
+    ], errMsg => formApiRef.current!.setError(passwordField, errMsg));
 
-    if (typeof password !== 'string' || password.length > 16) {
-      formApiRef.current?.setError(passwordField, t('密码长度不能大于 16 字符'));
-      ans = false;
-    } else if (password.length === 0) {
-      formApiRef.current?.setError(passwordField, t('密码是必填项'));
-      ans = false;
-    } else if (password.length < 6) {
-      formApiRef.current?.setError(passwordField, t('密码长度不能小于 6 字符'));
-      ans = false;
-    }
-
-    if (!ans) reject();
+    if (isEmailError || isPasswordError) reject();
 
     resolve({ email, password });
   }), []);
