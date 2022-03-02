@@ -40,7 +40,7 @@ const configuration = {
   module: {
     rules: [
       {
-        test: /\.[tj]sx?/,
+        test: /\.[tj]sx?$/,
         use: [
           {
             loader: 'babel-loader',
@@ -63,7 +63,7 @@ const configuration = {
             maxSize: 8 * 1024
           }
         }
-      },
+      }
     ]
   }
 };

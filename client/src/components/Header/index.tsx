@@ -1,8 +1,9 @@
 import React from 'react';
+import { setLang } from '@/i18n';
 import { useTranslation } from 'react-i18next';
 import { useSemiMode } from '@/common/hooks/useSemiMode';
 
-import { Layout, Nav, Dropdown, Button, Tooltip, Avatar } from 'semi';
+import { Layout, Nav, Dropdown, Button, Tooltip } from 'semi';
 import { IconLanguage, IconSun, IconMoon } from 'semi-icons';
 import UserAvatarMenu from '@/components/UserAvatarMenu';
 
@@ -18,7 +19,7 @@ function Header(this: any) {
   const { mode, setMode } = useSemiMode();
 
   const handleChangeLocale = React.useCallback((langCode: string) => {
-    i18n.changeLanguage(langCode);
+    setLang(/zh/.test(langCode) ? 'zh-CN' : 'en-US');
   }, []);
 
   const handleChangeMode = React.useCallback(() => {
