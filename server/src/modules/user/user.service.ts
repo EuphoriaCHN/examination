@@ -32,7 +32,9 @@ export class UserService {
   async update(userId: number, body: Api.User.UpdateRequest) {
     const record = await this.usersRepository.findOneOrFail({ id: userId });
 
-    return this.usersRepository.update(record, { nickname: body.nickname });
+    record.nickname = body.nickname;
+
+    return this.usersRepository.save(record);
   }
 
   async updatePassword(userId: number, body: Api.User.UpdatePasswordRequest) {
@@ -43,8 +45,8 @@ export class UserService {
       throw new BadRequestException('Password not match');
     }
 
-    return this.usersRepository.update(record, {
-      password: await this.utilsService.hashWithSalt(body.newPassword)
-    });
+    record.password = await this.utilsService.hashWithSalt(body.newPassword);
+
+    return this.usersRepository.save(record);
   }
 }

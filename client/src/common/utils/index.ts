@@ -127,3 +127,10 @@ export function setAuthCache(token?: string | null) {
 export function getAuthCache() {
   return localStorage.getItem(LOCAL_STORAGE_AUTH_KEY);
 }
+
+export function withMultiHoc<
+  P extends {},
+  F extends (Component: React.ComponentType<P>) => React.ComponentType<P>
+>(arr: F[], Component: React.ComponentType<P>) {
+  return arr.reduceRight((prev, next) => next(prev), Component);
+}

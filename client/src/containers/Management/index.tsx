@@ -4,7 +4,11 @@ import I18n from '@/i18n';
 import { Tabs, TabPane } from 'semi';
 import CategoryManager from '@/components/CategoryManager';
 import TagManager from '@/components/TagManager';
+
 import { withFallbackRenderer } from '@/components/FallbackRenderer';
+import { withMultiHoc } from '@/common/utils';
+import { withAuthWrapper } from '@/components/AuthWrapper';
+import { RouterBlocked } from '@/common/utils/constants';
 
 import './index.scss';
 
@@ -42,4 +46,7 @@ function Management() {
   );
 }
 
-export default withFallbackRenderer()(Management);
+export default withMultiHoc([
+  withFallbackRenderer(),
+  withAuthWrapper({ blockList: RouterBlocked.Management })
+], Management);

@@ -14,6 +14,15 @@ export const enum QuestionDifficultyLevel {
 };
 
 /**
+ * 用户权限
+ */
+export const enum AuthLevel {
+  Admin = 0,
+  Manager = 1,
+  User = 2
+}
+
+/**
  * 题目难度 Label
  */
 export const QuestionDifficultyLabel = {
@@ -49,3 +58,21 @@ export const QuestionDifficultyColors = {
     backgroundColor: 'rgba(var(--semi-pink-1), 1)',
   },
 } as const;
+
+/**
+ * 用户权限 Label
+ */
+export const AuthLevelLabel = {
+  [AuthLevel.Admin]: I18n.t('超级管理员'),
+  [AuthLevel.Manager]: I18n.t('管理员'),
+  [AuthLevel.User]: I18n.t('普通用户')
+} as const;
+
+/**
+ * Router Block
+ */
+export const RouterBlocked = {
+  Information: [AuthLevel.Manager, AuthLevel.User],
+  Generate: [AuthLevel.User],
+  Management: [AuthLevel.User],
+};

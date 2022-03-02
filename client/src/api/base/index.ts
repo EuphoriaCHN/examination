@@ -52,7 +52,7 @@ export abstract class Api {
 
       requestConfig.method = (requestConfig.method || 'GET').toLowerCase() as Method;
 
-      if (requestConfig.method === 'GET') {
+      if (requestConfig.method === 'get') {
         requestConfig.params = data;
       } else {
         requestConfig.data = data;

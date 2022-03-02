@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useUserAtom } from '@/store/user';
+import { RouterBlocked } from '@/common/utils/constants';
 
 import { Layout, Nav } from 'semi';
 import {
@@ -18,6 +20,7 @@ type NavProps = GetComponentProps<typeof Nav>;
 
 function Sider() {
   const [activeKey, setActiveKey] = React.useState<string>('');
+  const [user] = useUserAtom();
 
   const { t } = useTranslation();
   const _navigate = useNavigate();
@@ -26,7 +29,8 @@ function Sider() {
   const NAV_ITEMS = React.useMemo<NavProps['items']>(() => [{
     itemKey: 'information',
     text: t('站点信息'),
-    icon: <IconPieChart2Stroked />
+    icon: <IconPieChart2Stroked />,
+    blockList: RouterBlocked.Information
   }, {
     itemKey: 'exercise',
     text: `${t('自我练习')} (beta)`,
@@ -34,7 +38,8 @@ function Sider() {
   }, {
     itemKey: 'generate',
     text: t('生成题目'),
-    icon: <IconElementStroked />
+    icon: <IconElementStroked />,
+    blockList: RouterBlocked.Generate
   }, {
     itemKey: 'questions',
     text: t('题目列表'),
@@ -42,12 +47,17 @@ function Sider() {
   }, {
     itemKey: 'management',
     text: t('站点管理'),
-    icon: <IconSettingStroked />
+    icon: <IconSettingStroked />,
+    blockList: RouterBlocked.Management
   }, {
     itemKey: 'profile',
     text: t('个人中心'),
     icon: <IconUserStroked />
-  }], []);
+  }].filter(item => {
+    if (!Array.isArray(item.blockList)) return true;
+    if (!user) return false;
+    return !item.blockList.includes(user.permission);
+  }), [user]);
 
   React.useLayoutEffect(() => {
     (function () {
@@ -56,9 +66,13 @@ function Sider() {
           return setActiveKey(itemKey);
         }
       }
-      setActiveKey((NAV_ITEMS as any)[0].itemKey);
+      if (_location.pathname === '/') {
+        return setActiveKey((NAV_ITEMS as any)[0].itemKey);
+      }
+
+      setActiveKey('');
     })();
-  }, [_location.pathname]);
+  }, [_location.pathname, NAV_ITEMS]);
 
   const handleOnNavSelect = React.useCallback<NavProps['onSelect']>(({ itemKey }) => {
     typeof itemKey === 'string' && _navigate(itemKey);

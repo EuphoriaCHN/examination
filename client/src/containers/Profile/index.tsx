@@ -4,6 +4,7 @@ import { pick } from 'lodash';
 import { User } from '@/api';
 import { setAuthCache } from '@/common/utils';
 import { useLoginPage } from '@/common/hooks/useLoginPage';
+import { AuthLevelLabel } from '@/common/utils/constants';
 
 import { Avatar, Skeleton, Descriptions, Button, Form, Spin, Toast } from 'semi';
 import ContentHeader from '@/components/ContentHeader';
@@ -103,6 +104,9 @@ function Profile(this: any) {
           </Descriptions.Item>
           <Descriptions.Item itemKey={t('昵称') as string}>
             {user?.nickname || ''}
+          </Descriptions.Item>
+          <Descriptions.Item itemKey={t('权限') as string}>
+            {AuthLevelLabel[user!.permission]}
           </Descriptions.Item>
           <Descriptions.Item itemKey={t('密码') as string}>
             ****************
