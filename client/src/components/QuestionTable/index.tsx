@@ -102,6 +102,7 @@ function QuestionTable(this: any, props: IProps) {
         <Button
           icon={<IconMore />}
           type={'tertiary'}
+          theme={'borderless'}
           onClick={quickStopPropagation()}
         />
       </Dropdown>

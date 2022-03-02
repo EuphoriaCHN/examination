@@ -30,6 +30,10 @@
           visibility: visible;
         }
       }
+
+      &-search {
+        @include flex(space-between);
+      }
     }
   }
 }

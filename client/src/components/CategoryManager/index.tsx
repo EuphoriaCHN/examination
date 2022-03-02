@@ -203,21 +203,16 @@ function CategoryManager(this: any) {
   ), [mode]);
 
   const treeSearchRender = React.useCallback((searchRenderProps: SearchRenderProps) => (
-    <Row>
-      <Col span={6}>
-        <Input {...searchRenderProps} />
-      </Col>
-      <Col span={3} offset={15}>
-        <Button
-          icon={<IconPlus />}
-          theme={'solid'}
-          onClick={setModalVisible.bind(this, true)}
-          block
-        >
-          {t('新建分类')}
-        </Button>
-      </Col>
-    </Row>
+    <div className={'category-manager-content-tree-search'}>
+      <Input {...searchRenderProps} style={{ width: 280 }} />
+      <Button
+        icon={<IconPlus />}
+        theme={'solid'}
+        onClick={setModalVisible.bind(this, true)}
+      >
+        {t('新建分类')}
+      </Button>
+    </div>
   ), []);
 
   const renderContent = () => {
