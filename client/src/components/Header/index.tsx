@@ -1,5 +1,5 @@
 import React from 'react';
-import { setLang } from '@/i18n';
+import { LOCALE_LABEL, ProjectLocale, setLang } from '@/i18n';
 import { useTranslation } from 'react-i18next';
 import { useSemiMode } from '@/common/hooks/useSemiMode';
 
@@ -9,17 +9,12 @@ import UserAvatarMenu from '@/components/UserAvatarMenu';
 
 import './index.scss';
 
-const LOCALE_LABEL: { [k: string]: string } = {
-  'zh-CN': '简体中文',
-  'en-US': 'English'
-};
-
 function Header(this: any) {
   const { i18n, t } = useTranslation();
   const { mode, setMode } = useSemiMode();
 
-  const handleChangeLocale = React.useCallback((langCode: string) => {
-    setLang(/zh/.test(langCode) ? 'zh-CN' : 'en-US');
+  const handleChangeLocale = React.useCallback((langCode: ProjectLocale) => {
+    setLang(langCode);
   }, []);
 
   const handleChangeMode = React.useCallback(() => {
@@ -48,7 +43,7 @@ function Header(this: any) {
               <Dropdown.Item
                 active={i18n.language === langCode}
                 key={langCode}
-                onClick={handleChangeLocale.bind(this, langCode)}
+                onClick={handleChangeLocale.bind(this, langCode as ProjectLocale)}
               >
                 {label}
               </Dropdown.Item>

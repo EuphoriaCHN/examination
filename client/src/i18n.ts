@@ -7,12 +7,21 @@ import enUS from '@/resources/en-US.json';
 
 const STORAGE_KEY = 'locale';
 
-export function getLang() {
-  const cacheData = localStorage.getItem(STORAGE_KEY);
-  return /zh/.test(cacheData || '') ? 'zh-CN' : 'en-US';
+export const LOCALE = ['zh-CN', 'en-US'] as const;
+export type ProjectLocale = typeof LOCALE[number];
+
+export const LOCALE_LABEL: Record<ProjectLocale, string> = {
+  'zh-CN': '简体中文',
+  'en-US': 'English'
+} as const;
+
+export function getLang(): ProjectLocale {
+  const cacheData: any = localStorage.getItem(STORAGE_KEY) || '';
+
+  return LOCALE.includes(cacheData) ? cacheData : 'zh-CN';
 }
 
-export function setLang(lang: 'zh-CN' | 'en-US') {
+export function setLang(lang: ProjectLocale) {
   localStorage.setItem(STORAGE_KEY, lang);
   location.reload();
 }

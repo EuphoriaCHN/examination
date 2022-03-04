@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/lib/isEmail';
 
 import { useQuery } from '@/common/hooks/useQuery';
+import { KeyCode, useKeydown } from '@/common/hooks/useKeydown';
 import { validateForm } from '@/common/utils';
 
 import { Typography, Form, Button, Toast } from 'semi';
@@ -199,6 +200,16 @@ function Login(this: any) {
       setLoading(false);
     }
   }, []);
+
+  const handleKeydown = React.useCallback((ev: KeyboardEvent) => {
+    const cb = pageType === 'login' ? handleLogin : handleRegister;
+
+    if (ev.code === KeyCode.Enter) {
+      cb();
+    }
+  }, [pageType]);
+
+  useKeydown(handleKeydown);
 
   return (
     <div className={'login'}>
