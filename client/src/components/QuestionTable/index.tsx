@@ -54,6 +54,7 @@ function QuestionTable(this: any, props: IProps) {
   }, {
     title: t('题目难度'),
     dataIndex: 'level',
+    width: 128,
     render: (level: QuestionDifficultyLevel) => {
       const colors = QuestionDifficultyColors[level] || {};
       const label = QuestionDifficultyLabel[level] || 'Unknown';
@@ -63,18 +64,22 @@ function QuestionTable(this: any, props: IProps) {
   }, {
     title: t('更新时间'),
     dataIndex: 'updateTime',
+    width: 256,
     render: timestamp => t('{updateTime, date, long} {updateTime, time, medium}', {
       updateTime: new Date(timestamp)
     })
   }, {
     title: t('标签'),
     dataIndex: 'tags',
+    width: 128,
     render: (tags: ITagItem[]) => <MoreTags items={tags} maxCount={1} labelKey={'name'} />
   }, {
     title: t('分类'),
     dataIndex: 'categories',
+    width: 128,
     render: (categories: ICategoryItem[]) => <MoreTags items={categories} maxCount={1} labelKey={'name'} />
   }, {
+    width: 64,
     render: (record: IQuestionItem) => (
       <Dropdown
         render={(

@@ -12,6 +12,8 @@ import { useQuestionAtom } from '@/containers/CreateQuestion/store';
 
 import { Question } from '@/api';
 
+import './index.scss';
+
 function QuestionDetail() {
   const [loading, setLoading] = React.useState(false);
   const [questionDetail, setQuestionDetail] = React.useState<IQuestionItem>();

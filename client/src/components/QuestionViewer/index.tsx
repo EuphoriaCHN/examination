@@ -5,6 +5,7 @@ import { Tabs, TabPane } from 'semi';
 import { IconBeaker, IconArticle } from 'semi-icons';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import QuestionDescription from '@/components/QuestionDescription';
+import DraggableWrapper from '@/components/DraggableWrapper';
 
 import './index.scss';
 
@@ -19,11 +20,6 @@ function QuestionViewer(props: IProps) {
 
   const { loading, record = {} as IQuestionItem } = props;
 
-  const contentStyle: React.CSSProperties = !!props.contentHeight ? {
-    maxHeight: props.contentHeight,
-    overflowY: 'auto'
-  } : {};
-
   return (
     <div className={'question-viewer'}>
       <Tabs type={'line'} size={'small'}>
@@ -34,12 +30,16 @@ function QuestionViewer(props: IProps) {
           tab={t('题目描述')}
           itemKey='description'
         >
-          <div style={contentStyle}>
+          <DraggableWrapper>
             <QuestionDescription
               record={record}
               loading={loading}
             />
-          </div>
+            <QuestionDescription
+              record={record}
+              loading={loading}
+            />
+          </DraggableWrapper>
         </TabPane>
         <TabPane
           // See: https://github.com/DouyinFE/semi-design/pull/631
@@ -48,7 +48,7 @@ function QuestionViewer(props: IProps) {
           tab={t('题解')}
           itemKey='answer'
         >
-          <div style={Object.assign({ boxSizing: 'border-box', padding: '20px' }, contentStyle)}>
+          <div style={{ boxSizing: 'border-box', padding: '20px' }}>
             <MarkdownRenderer loading={props.loading} renderEmpty>
               {record?.answer || ''}
             </MarkdownRenderer>

@@ -48,3 +48,20 @@
     background: var(--semi-color-fill-1);
   }
 }
+
+@mixin semiTabContentFullHeight {
+  .semi-tabs {
+    height: 100%;
+
+    &-content {
+      // 减去 Bar 的高度
+      height: calc(100% - 38px);
+      padding: 0;
+    }
+
+    .semi-tabs-pane,
+    .semi-tabs-pane-motion-overlay {
+      height: 100%;
+    }
+  }
+}

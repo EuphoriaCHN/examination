@@ -1,0 +1,39 @@
+@import "@/common/styles/utils.scss";
+
+.draggable-wrapper {
+  @include flex(space-between, flex-start);
+  position: relative;
+  height: 100%;
+
+  &-item {
+    width: calc(50% - 4px);
+  }
+
+  &-bar {
+    display: none;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: var(--semi-color-fill-0);
+    cursor: col-resize;
+    transition: background-color ease-in-out 0.15s;
+
+    &:hover {
+      background-color: var(--semi-color-fill-1);
+    }
+
+    &:active {
+      background-color: var(--semi-color-fill-2);
+    }
+  }
+
+  &-mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    // background-color: #f00;
+    display: none;
+  }
+}

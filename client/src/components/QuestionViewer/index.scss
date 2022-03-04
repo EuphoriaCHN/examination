@@ -1,0 +1,7 @@
+@import "@/common/styles/utils.scss";
+
+.question-viewer {
+  height: 100%;
+
+  @include semiTabContentFullHeight();
+}

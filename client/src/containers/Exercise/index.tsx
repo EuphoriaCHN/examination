@@ -38,7 +38,6 @@ function Exercise() {
         <QuestionViewer
           loading={loading}
           record={record}
-          contentHeight={'calc(100vh - 120px - 64px - 38px - 48px)'}
         />
       </div>
       <footer className={'exercise-footer'}>
