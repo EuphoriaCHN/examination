@@ -66,7 +66,15 @@ function QuestionDetail() {
         )}
         allowGoBack
       />
-      <QuestionViewer record={questionDetail} loading={loading} />
+      <QuestionViewer
+        record={questionDetail}
+        loading={loading}
+        // header & footer each 60
+        // content padding top & bottom each 32
+        // detail content header 32
+        // tabs header 32
+        contentHeight={'calc(100vh - 250px)'}
+      />
     </div>
   );
 }

@@ -38,6 +38,11 @@ function Exercise() {
         <QuestionViewer
           loading={loading}
           record={record}
+          // header & footer each 60
+          // content padding top & bottom each 32
+          // tabs header 32
+          // exercise footer 41
+          contentHeight={'calc(100vh - 257px)'}
         />
       </div>
       <footer className={'exercise-footer'}>

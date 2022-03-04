@@ -20,6 +20,18 @@ function QuestionViewer(props: IProps) {
 
   const { loading, record = {} as IQuestionItem } = props;
 
+  const contentStyle: React.CSSProperties = !!props.contentHeight ? {
+    maxHeight: props.contentHeight,
+    overflow: 'hidden'
+  } : {};
+
+  const answerStyle: React.CSSProperties = {
+    boxSizing: 'border-box',
+    padding: 20,
+    overflow: 'auto',
+    maxHeight: props.contentHeight,
+  };
+
   return (
     <div className={'question-viewer'}>
       <Tabs type={'line'} size={'small'}>
@@ -30,14 +42,16 @@ function QuestionViewer(props: IProps) {
           tab={t('题目描述')}
           itemKey='description'
         >
-          <DraggableWrapper>
+          <DraggableWrapper style={contentStyle}>
             <QuestionDescription
               record={record}
               loading={loading}
+              maxHeight={props.contentHeight}
             />
             <QuestionDescription
               record={record}
               loading={loading}
+              maxHeight={props.contentHeight}
             />
           </DraggableWrapper>
         </TabPane>
@@ -48,7 +62,7 @@ function QuestionViewer(props: IProps) {
           tab={t('题解')}
           itemKey='answer'
         >
-          <div style={{ boxSizing: 'border-box', padding: '20px' }}>
+          <div style={answerStyle}>
             <MarkdownRenderer loading={props.loading} renderEmpty>
               {record?.answer || ''}
             </MarkdownRenderer>

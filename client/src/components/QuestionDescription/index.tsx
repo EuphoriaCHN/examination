@@ -17,6 +17,7 @@ export type QuestionDescriptionRecord = TypeHelper.ConvertStructure<Partial<IQue
 export interface IProps {
   record?: QuestionDescriptionRecord
   loading?: boolean;
+  maxHeight?: string | number;
 }
 
 function QuestionDescription(props: IProps) {
@@ -55,7 +56,7 @@ function QuestionDescription(props: IProps) {
   }] as const;
 
   return (
-    <div className={'question-description'}>
+    <div className={'question-description'} style={{ maxHeight: props.maxHeight }}>
       <header className={'question-description-header'}>
         <Skeleton
           placeholder={<Skeleton.Title />}
