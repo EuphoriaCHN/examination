@@ -116,6 +116,9 @@ export function validateForm(
   return false;
 }
 
+/**
+ * 设置 JWT 到 Local storage
+ */
 export function setAuthCache(token?: string | null) {
   if (!!token) {
     localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, token);
@@ -124,10 +127,16 @@ export function setAuthCache(token?: string | null) {
   }
 }
 
+/**
+ * 获取存储在 Local storage 中的 JWT
+ */
 export function getAuthCache() {
   return localStorage.getItem(LOCAL_STORAGE_AUTH_KEY);
 }
 
+/**
+ * 一次性使用多个 HOC
+ */
 export function withMultiHoc<
   P extends {},
   F extends (Component: React.ComponentType<P>) => React.ComponentType<P>

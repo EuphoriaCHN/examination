@@ -104,6 +104,8 @@ function MarkdownEditor(props: IProps) {
             onBlur={onBlur}
             onFocus={onFocus}
             placeholder={props.placeholder}
+            className={'markdown-editor-core'}
+            noLineNumber
           />
         </div>
         <div className={'markdown-editor-previewer-wrapper'} style={{ maxHeight: props.maxHeight }}>

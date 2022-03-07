@@ -6,6 +6,7 @@ import { IconBeaker, IconArticle } from 'semi-icons';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import QuestionDescription from '@/components/QuestionDescription';
 import DraggableWrapper from '@/components/DraggableWrapper';
+import CodeEditor from '@/components/CodeEditor';
 
 import './index.scss';
 
@@ -48,9 +49,8 @@ function QuestionViewer(props: IProps) {
               loading={loading}
               maxHeight={props.contentHeight}
             />
-            <QuestionDescription
-              record={record}
-              loading={loading}
+            <CodeEditor
+              language={'tsx'}
               maxHeight={props.contentHeight}
             />
           </DraggableWrapper>

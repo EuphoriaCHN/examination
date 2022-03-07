@@ -59,11 +59,15 @@ function DraggableWrapper(props: IProps) {
   }, []);
 
   const handleBoxResize = React.useCallback((entry: ResizeObserverEntry[], ob: ResizeObserver) => {
+    // 变的不是宽度
+    if (entry[0].contentRect.width === boxElClientWidthRef.current) return;
     if (!boxElRef.current || !barElRef.current) return;
 
     // 如果整个 Box 被 resize 了，先重制 bar 的位置
     const boxWidth = boxElRef.current.clientWidth;
     barElRef.current.style.left = `${boxWidth / 2 - 2}px`;
+
+    boxElClientWidthRef.current = entry[0].contentRect.width;
 
     leftElRef.current!.style.width = ``;
     rightElRef.current!.style.width = ``;
@@ -78,6 +82,7 @@ function DraggableWrapper(props: IProps) {
     ) return;
 
     barElRef.current.style.display = 'block';
+    boxElClientWidthRef.current = boxElRef.current?.clientWidth || 0;
   }, []);
 
   React.useLayoutEffect(() => {
