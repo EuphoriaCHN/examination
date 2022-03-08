@@ -16,7 +16,7 @@ import 'prismjs/components/prism-markdown.min';
 
 import './index.scss';
 
-const SUPPORT_LANGUAGES = [
+export const SUPPORT_LANGUAGES = [
   'css',
   'javascript',
   'jsx',

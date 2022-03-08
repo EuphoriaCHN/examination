@@ -3,6 +3,7 @@ const { SRC, isProd, DIST, NODE_MODULES, PROJECT_ROOT, LOADERS } = require('./ut
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MonacoEditorWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const chalk = require('chalk');
 
@@ -36,6 +37,9 @@ const configuration = {
         configFile: PROJECT_ROOT('tsconfig.json')
       }
     }),
+    new MonacoEditorWebpackPlugin({
+      languages: ['css', 'scss', 'less', 'markdown', 'javascript', 'typescript', 'markdown', 'json'],
+    })
   ],
   module: {
     rules: [
@@ -63,6 +67,13 @@ const configuration = {
             maxSize: 8 * 1024
           }
         }
+      },
+      {
+        test: /\.ttf$/,
+        type: 'asset',
+        generator: {
+          filename: 'asset/fonts/[contenthash][ext][query]'
+        },
       }
     ]
   }

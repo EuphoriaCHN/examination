@@ -26,6 +26,18 @@
     &:active {
       background-color: var(--semi-color-fill-2);
     }
+
+    &::before {
+      content: "...";
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      color: var(--semi-color-text-2);
+      writing-mode: vertical-lr;
+      transform: translateX(1px);
+      letter-spacing: 3px;
+    }
   }
 
   &-mask {

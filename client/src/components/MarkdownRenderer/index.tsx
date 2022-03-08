@@ -53,18 +53,20 @@ function MarkdownRenderer(props: IProps) {
   };
 
   return (
-    <Skeleton
-      placeholder={(
-        <React.Fragment>
-          <Skeleton.Paragraph />
-          <Skeleton.Paragraph style={{ marginTop: 32 }} />
-        </React.Fragment>
-      )}
-      loading={!!props.loading}
-      active
-    >
-      {renderContent()}
-    </Skeleton>
+    <div className={'markdown-renderer'}>
+      <Skeleton
+        placeholder={(
+          <React.Fragment>
+            <Skeleton.Paragraph />
+            <Skeleton.Paragraph style={{ marginTop: 32 }} />
+          </React.Fragment>
+        )}
+        loading={!!props.loading}
+        active
+      >
+        {renderContent()}
+      </Skeleton>
+    </div>
   );
 }
 

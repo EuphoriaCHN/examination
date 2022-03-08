@@ -5,11 +5,11 @@ import './index.scss';
 interface IProps {
   style?: React.CSSProperties;
   children: [JSX.Element, JSX.Element];
+  minWidthRatio?: number;
 }
 
 const BAR_WIDTH = 8 as const;
-const LEFT_CHILD_MIN_WIDTH_RATIO = 0.35;
-const LEFT_CHILD_MAX_WIDTH_RATIO = 0.65;
+const DEFAULT_MIN_WIDTH_RATIO = 0.35;
 
 function DraggableWrapper(props: IProps) {
   const boxElRef = React.useRef<HTMLDivElement>(null);
@@ -19,6 +19,9 @@ function DraggableWrapper(props: IProps) {
   const maskElRef = React.useRef<HTMLDivElement>(null);
 
   const boxElClientWidthRef = React.useRef(0);
+
+  const minWidthLeftRatio = props.minWidthRatio ?? DEFAULT_MIN_WIDTH_RATIO;
+  const maxWidthLeftRatio = 1 - minWidthLeftRatio;
 
   const handleBarMouseDown = React.useCallback((ev: MouseEvent) => {
     if (barElRef.current?.isEqualNode(ev.target as any)) {
@@ -41,10 +44,10 @@ function DraggableWrapper(props: IProps) {
     let offsetX = ev.offsetX;
 
     // 移动的太快了，直接设置为极限值
-    if (ratio < LEFT_CHILD_MIN_WIDTH_RATIO) {
-      offsetX = boxElClientWidthRef.current * LEFT_CHILD_MIN_WIDTH_RATIO;
-    } else if (ratio > LEFT_CHILD_MAX_WIDTH_RATIO) {
-      offsetX = boxElClientWidthRef.current * LEFT_CHILD_MAX_WIDTH_RATIO;
+    if (ratio < minWidthLeftRatio) {
+      offsetX = boxElClientWidthRef.current * minWidthLeftRatio;
+    } else if (ratio > maxWidthLeftRatio) {
+      offsetX = boxElClientWidthRef.current * maxWidthLeftRatio;
     }
 
     const barLeft = offsetX - BAR_WIDTH / 2;
@@ -56,7 +59,7 @@ function DraggableWrapper(props: IProps) {
     // 修改左右孩子的宽度
     leftElRef.current!.style.width = `${leftElWidth}px`;
     rightElRef.current!.style.width = `${rightElWidth}px`;
-  }, []);
+  }, [minWidthLeftRatio, maxWidthLeftRatio]);
 
   const handleBoxResize = React.useCallback((entry: ResizeObserverEntry[], ob: ResizeObserver) => {
     // 变的不是宽度
@@ -96,7 +99,6 @@ function DraggableWrapper(props: IProps) {
 
     boxElRef.current?.addEventListener('mousedown', handleBarMouseDown);
     boxElRef.current?.addEventListener('mouseup', handleBarMouseUp);
-    maskElRef.current?.addEventListener('mousemove', handleOnDruggingMouseMove);
     maskElRef.current?.addEventListener('mouseleave', handleOnDruggingMouseLeave);
 
     !!boxElRef.current && resizeObserver?.observe(boxElRef.current);
@@ -104,19 +106,25 @@ function DraggableWrapper(props: IProps) {
     return () => {
       boxElRef.current?.removeEventListener('mousedown', handleBarMouseDown);
       boxElRef.current?.removeEventListener('mouseup', handleBarMouseUp);
-      maskElRef.current?.removeEventListener('mousemove', handleOnDruggingMouseMove);
       maskElRef.current?.removeEventListener('mouseleave', handleOnDruggingMouseLeave);
 
       !!boxElRef.current && resizeObserver?.unobserve(boxElRef.current);
     };
   }, []);
 
+  React.useLayoutEffect(() => {
+    maskElRef.current?.addEventListener('mousemove', handleOnDruggingMouseMove);
+
+    return () => {
+      maskElRef.current?.removeEventListener('mousemove', handleOnDruggingMouseMove);
+    };
+  }, [handleOnDruggingMouseMove]);
+
   return (
     <div
       style={props.style}
       className={'draggable-wrapper'}
       ref={boxElRef}
-      id={'fuck'}
     >
       <div className={'draggable-wrapper-item'} ref={leftElRef}>
         {props.children[0]}

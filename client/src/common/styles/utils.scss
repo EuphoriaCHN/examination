@@ -41,11 +41,11 @@
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background: var(--semi-color-fill-2);
+    background: var(--semi-color-fill-1);
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: var(--semi-color-fill-1);
+    background: var(--semi-color-fill-2);
   }
 }
 
