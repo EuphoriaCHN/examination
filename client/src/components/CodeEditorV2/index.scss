@@ -1,3 +1,5 @@
+@import "@/common/styles/utils.scss";
+
 .code-editor-wrapper {
   position: relative;
   width: 100%;
@@ -25,5 +27,17 @@
     &:hover {
       background: var(--semi-color-fill-2);
     }
+  }
+
+  &-core-wrapper {
+    position: relative;
+    width: 100%;
+    // 减去 footer 的高度
+    height: calc(100% - 32px);
+  }
+
+  &-footer {
+    @include flex(flex-end, center);
+    @include layoutPadding();
   }
 }

@@ -269,4 +269,14 @@ declare namespace Api {
       excludes: 'password'
     }>;
   }
+
+  namespace Execute {
+    type ExecuteCodeRequest = {
+      code: string;
+      /**
+       * 目前仅支持这俩
+       */
+      lang: 'javascript' | 'typescript';
+    }
+  }
 }

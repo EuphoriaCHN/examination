@@ -1,19 +1,27 @@
-import { useSemiMode } from '@/common/hooks/useSemiMode';
 import React from 'react';
 import * as monaco from 'monaco-editor';
+import { useTranslation } from 'react-i18next';
+import { useSemiMode } from '@/common/hooks/useSemiMode';
+
+import { Button, Toast } from 'semi';
+import { IconTreeTriangleRight } from 'semi-icons';
+import { withAuth } from '@/components/AuthWrapper';
+import ExecuteCodeModal from '@/components/ExecuteCodeModal';
 
 import './index.scss'
 
 // ! 这个要和 Webpack config 对齐
 export const SUPPORT_LANGUAGES = [
   'css',
-  'scss',
-  'less',
-  'markdown',
   'javascript',
   'typescript',
   'json'
 ] as const;
+
+export type SUPPORT_LANGUAGES_TYPE = typeof SUPPORT_LANGUAGES[number];
+
+// @ts-ignore Semi 2.5.0 Button DTS 有问题
+const SubmitButton = withAuth({})(Button);
 
 interface IProps {
   language: typeof SUPPORT_LANGUAGES[number];
@@ -22,13 +30,16 @@ interface IProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
   value?: string;
   placeholder?: string;
+  defaultValue?: string;
   simple?: boolean;
   onInitInstance?: (editor: monaco.editor.IStandaloneCodeEditor) => void;
+  renderFooter?: (ori: [execute: JSX.Element]) => JSX.Element;
 }
 
 function CodeEditor(props: IProps) {
   const { mode: semiMode } = useSemiMode();
   const [isFocus, setIsFocus] = React.useState(false);
+  const { t } = useTranslation();
 
   const editorElRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -55,6 +66,8 @@ function CodeEditor(props: IProps) {
         },
         tabSize: 2,
         insertSpaces: true,
+        overviewRulerLanes: 0,
+        value: props.value ?? props.defaultValue ?? ''
       });
 
       typeof props.onInitInstance === 'function' && props.onInitInstance(editorRef.current);
@@ -97,8 +110,7 @@ function CodeEditor(props: IProps) {
         folding: false,
         renderLineHighlight: 'none',
         lineNumbers: 'off',
-        overviewRulerLanes: 0,
-        overviewRulerBorder: false
+        overviewRulerBorder: false,
       });
     } else {
       editorRef.current?.updateOptions({
@@ -106,11 +118,46 @@ function CodeEditor(props: IProps) {
         folding: true,
         renderLineHighlight: 'line',
         lineNumbers: 'on',
-        overviewRulerLanes: 3,
         overviewRulerBorder: true
       });
     }
   }, [props.simple]);
+
+  const handleOnExecuteClick = React.useCallback((lang: any) => {
+    const code = editorRef.current!.getValue();
+
+    if (!code) {
+      return Toast.error(t('不能提交空代码'));
+    }
+
+    return ExecuteCodeModal.open({ lang, code });
+  }, []);
+
+  const renderFooter = React.useMemo(() => {
+    let el = (
+      <SubmitButton
+        icon={<IconTreeTriangleRight />}
+        type={'secondary'}
+        disabled={['css', 'json'].includes(props.language)}
+        auth={{
+          tooltips: { content: t('不支持提交的语种') }
+        }}
+        onClick={() => handleOnExecuteClick(props.language)}
+      >
+        {t('执行代码')}
+      </SubmitButton>
+    );
+
+    if (typeof props.renderFooter === 'function') {
+      el = props.renderFooter([el]);
+    }
+
+    return (
+      <footer className={'code-editor-footer'}>
+        {el}
+      </footer>
+    );
+  }, [props.renderFooter, props.language]);
 
   return (
     <div
@@ -118,16 +165,19 @@ function CodeEditor(props: IProps) {
       onFocus={handleOnFocus}
       onBlur={handleOnBlur}
     >
-      <div
-        className={'code-editor-placeholder'}
-        style={{ display: !isFocus ? 'block' : 'none' }}
-      >
-        {props.placeholder}
+      <div className={'code-editor-core-wrapper'}>
+        <div
+          className={'code-editor-placeholder'}
+          style={{ display: !isFocus ? 'block' : 'none' }}
+        >
+          {props.placeholder}
+        </div>
+        <div
+          ref={editorElRef}
+          className={'code-editor'}
+        />
       </div>
-      <div
-        ref={editorElRef}
-        className={'code-editor'}
-      />
+      {renderFooter}
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { CategoryModule } from '@/modules/category/category.module';
 import { TagModule } from '@/modules/tag/tag.module';
 import { QuestionModule } from '@/modules/question/question.module';
 import { TemplateModule } from '@/modules/template/template.module';
+import { ExecuteModule } from '@/modules/execute/execute.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TemplateModule } from '@/modules/template/template.module';
     QuestionModule,
     TemplateModule,
     AuthModule,
+    ExecuteModule
   ],
   controllers: [],
   providers: [],

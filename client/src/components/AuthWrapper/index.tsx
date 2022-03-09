@@ -22,7 +22,7 @@ type HocInjectProps = {
 };
 
 export function withAuth(config: WithAuthConfig) {
-  return function <P extends { disabled?: boolean }>(Component: React.ComponentType<P>): React.ComponentType<P & HocInjectProps> {
+  return function <P extends { disabled?: boolean; }>(Component: React.ComponentType<P>): React.ComponentType<P & HocInjectProps> {
     return function (props: P & HocInjectProps) {
       const [user] = useUserAtom();
       const { t } = useTranslation();
@@ -35,9 +35,9 @@ export function withAuth(config: WithAuthConfig) {
 
       if (isDisabled && activeType === 'hidden') return null;
 
-      const el = <Component {...props} />
+      const el = <Component {...props} disabled={isDisabled} />;
 
-      if (!tooltips) {
+      if (!tooltips || !isDisabled) {
         return el;
       }
 

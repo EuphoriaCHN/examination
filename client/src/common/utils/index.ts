@@ -143,3 +143,17 @@ export function withMultiHoc<
 >(arr: F[], Component: React.ComponentType<P>) {
   return arr.reduceRight((prev, next) => next(prev), Component);
 }
+
+let customPortal: HTMLDivElement | null = null;
+/**
+ * 获取自定义 portal
+ */
+export function getCustomPortal() {
+  if (!!customPortal) return customPortal;
+  customPortal = document.createElement('div');
+  customPortal.className = 'custom-portal';
+
+  document.body.appendChild(customPortal);
+
+  return customPortal;
+}

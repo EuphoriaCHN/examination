@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Tabs, TabPane, Select } from 'semi';
+import { Tabs, TabPane, Select, Button } from 'semi';
 import { IconBeaker, IconArticle } from 'semi-icons';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import QuestionDescription from '@/components/QuestionDescription';
 import DraggableWrapper from '@/components/DraggableWrapper';
-import CodeEditor, { SUPPORT_LANGUAGES } from '@/components/CodeEditorV2';
+import CodeEditor, { SUPPORT_LANGUAGES, SUPPORT_LANGUAGES_TYPE } from '@/components/CodeEditorV2';
 
 import './index.scss';
 
@@ -14,11 +14,14 @@ interface IProps {
   record?: IQuestionItem;
   loading?: boolean;
   contentHeight?: string | number;
+  activeLang?: SUPPORT_LANGUAGES_TYPE;
+  onActiveLangChange?: (newVal: SUPPORT_LANGUAGES_TYPE) => void;
+  renderCodeEditorFooter?: GetComponentProps<typeof CodeEditor>['renderFooter'];
 }
 
 function QuestionViewer(props: IProps) {
   const { t } = useTranslation();
-  const [activeLang, setActiveLang] = React.useState<typeof SUPPORT_LANGUAGES[number]>('javascript');
+  const [activeLang, setActiveLang] = React.useState<SUPPORT_LANGUAGES_TYPE>(props.activeLang || 'javascript');
 
   const { loading, record = {} as IQuestionItem } = props;
 
@@ -34,10 +37,18 @@ function QuestionViewer(props: IProps) {
     maxHeight: props.contentHeight,
   };
 
+  const onActiveLangSelect = React.useCallback((val: any) => {
+    if (typeof props.onActiveLangChange === 'function') {
+      props.onActiveLangChange(val);
+    } else {
+      setActiveLang(val);
+    }
+  }, [props.onActiveLangChange]);
+
   const renderTabExtraContent = React.useMemo(() => (
     <div className={'question-viewer-extra'}>
       <Select
-        onSelect={(val: any) => setActiveLang(val)}
+        onSelect={onActiveLangSelect}
         style={{ width: 120 }}
         value={activeLang}
         filter
@@ -45,7 +56,13 @@ function QuestionViewer(props: IProps) {
         {SUPPORT_LANGUAGES.map(lang => <Select.Option key={lang} value={lang}>{lang}</Select.Option>)}
       </Select>
     </div>
-  ), [activeLang]);
+  ), [activeLang, onActiveLangSelect]);
+
+  React.useEffect(() => {
+    if (typeof props.activeLang === 'string') {
+      setActiveLang(props.activeLang);
+    }
+  }, [props.activeLang]);
 
   return (
     <div className={'question-viewer'}>
@@ -63,7 +80,11 @@ function QuestionViewer(props: IProps) {
               loading={loading}
               maxHeight={props.contentHeight}
             />
-            <CodeEditor language={activeLang} />
+            <CodeEditor
+              language={activeLang}
+              renderFooter={props.renderCodeEditorFooter}
+              defaultValue={`console.log('Hello, world');\n\nconsole.log('haha')`}
+            />
           </DraggableWrapper>
         </TabPane>
         <TabPane

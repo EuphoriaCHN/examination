@@ -38,7 +38,7 @@ const configuration = {
       }
     }),
     new MonacoEditorWebpackPlugin({
-      languages: ['css', 'scss', 'less', 'markdown', 'javascript', 'typescript', 'markdown', 'json'],
+      languages: ['css', 'javascript', 'typescript', 'json'],
     })
   ],
   module: {

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Form, Row, Col, withField } from 'semi';
 import LevelSlider from '@/components/LevelSlider';
 import MarkdownEditor from '@/components/MarkdownEditor';
-import Prompt from '@/components/Prompt';
 
 import { createOptionalFormLabel } from '@/common/utils';
 import { useTagsAtom } from '@/store/tags';
@@ -111,14 +110,6 @@ function QuestionForm(props: IProps) {
           </Col>
         </Row>
       </Form>
-      <Prompt
-        modalProps={{
-          title: t('离开当前页面？'),
-          content: t('系统可能不会保存您所做的更改。'),
-          okText: t('离开')
-        }}
-        when
-      />
     </React.Fragment>
   );
 }
