@@ -276,7 +276,7 @@ declare namespace Api {
       /**
        * 目前仅支持这俩
        */
-      lang: 'javascript' | 'typescript';
+      lang: 'JavaScript V8' | 'TypeScript' | 'Node.js';
     }
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Tabs, TabPane, Select, Button } from 'semi';
+import { Tabs, TabPane, Select } from 'semi';
 import { IconBeaker, IconArticle } from 'semi-icons';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import QuestionDescription from '@/components/QuestionDescription';
@@ -21,7 +21,7 @@ interface IProps {
 
 function QuestionViewer(props: IProps) {
   const { t } = useTranslation();
-  const [activeLang, setActiveLang] = React.useState<SUPPORT_LANGUAGES_TYPE>(props.activeLang || 'javascript');
+  const [activeLang, setActiveLang] = React.useState<SUPPORT_LANGUAGES_TYPE>(props.activeLang || 'Node.js');
 
   const { loading, record = {} as IQuestionItem } = props;
 
@@ -49,11 +49,11 @@ function QuestionViewer(props: IProps) {
     <div className={'question-viewer-extra'}>
       <Select
         onSelect={onActiveLangSelect}
-        style={{ width: 120 }}
+        style={{ width: 180 }}
         value={activeLang}
         filter
       >
-        {SUPPORT_LANGUAGES.map(lang => <Select.Option key={lang} value={lang}>{lang}</Select.Option>)}
+        {Object.keys(SUPPORT_LANGUAGES).map(lang => <Select.Option key={lang} value={lang}>{lang}</Select.Option>)}
       </Select>
     </div>
   ), [activeLang, onActiveLangSelect]);
@@ -83,7 +83,6 @@ function QuestionViewer(props: IProps) {
             <CodeEditor
               language={activeLang}
               renderFooter={props.renderCodeEditorFooter}
-              defaultValue={`console.log('Hello, world');\n\nconsole.log('haha')`}
             />
           </DraggableWrapper>
         </TabPane>

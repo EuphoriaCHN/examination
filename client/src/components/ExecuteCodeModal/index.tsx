@@ -7,8 +7,10 @@ import type { SUPPORT_LANGUAGES_TYPE } from '@/components/CodeEditorV2';
 import { t } from 'i18next';
 import { withModalPortalWrapper } from '../WithModalPortalWrapper';
 
+type AllowedExecute = Exclude<SUPPORT_LANGUAGES_TYPE, 'CSS' | 'JSON' | 'Markdown'>;
+
 interface IProps {
-  lang: Exclude<SUPPORT_LANGUAGES_TYPE, 'json' | 'markdown' | 'css'>;
+  lang: AllowedExecute;
   code: string;
 }
 
@@ -23,6 +25,7 @@ const ExecuteCodeModal = withModalPortalWrapper()(function (props: IProps) {
 
   const run = React.useCallback(async (data: IProps) => {
     try {
+      await Execute.code(data);
     } catch (err) {
 
     }

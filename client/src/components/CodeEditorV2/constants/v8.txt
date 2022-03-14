@@ -1,0 +1,8 @@
+/**
+ * @params {string} name
+ */
+function getHello(name) {
+  return `Hello ${name}`;
+}
+
+console.log(getHello('Euphoria'));

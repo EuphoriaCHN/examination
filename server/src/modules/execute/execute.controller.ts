@@ -8,6 +8,9 @@ export class ExecuteController {
 
   @Post('/code')
   async execCode(@Body() body: Api.Execute.ExecuteCodeRequest) {
-    console.log(body);
+    switch (body.lang) {
+      case 'JavaScript V8':
+        await this.executeService.runJavascriptV8(body.code);
+    }
   }
 }

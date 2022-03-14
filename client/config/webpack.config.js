@@ -38,7 +38,7 @@ const configuration = {
       }
     }),
     new MonacoEditorWebpackPlugin({
-      languages: ['css', 'javascript', 'typescript', 'json'],
+      languages: ['css', 'javascript', 'typescript', 'json', 'markdown'],
     })
   ],
   module: {
@@ -74,6 +74,10 @@ const configuration = {
         generator: {
           filename: 'asset/fonts/[contenthash][ext][query]'
         },
+      },
+      {
+        test: /\.txt$/,
+        type: 'asset/source',
       }
     ]
   }

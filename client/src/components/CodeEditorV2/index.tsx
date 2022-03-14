@@ -10,21 +10,47 @@ import ExecuteCodeModal from '@/components/ExecuteCodeModal';
 
 import './index.scss'
 
-// ! 这个要和 Webpack config 对齐
-export const SUPPORT_LANGUAGES = [
-  'css',
-  'javascript',
-  'typescript',
-  'json'
-] as const;
+// ! monacoAlias 的并集要和 Webpack config 对齐
+export const SUPPORT_LANGUAGES = {
+  'CSS': {
+    monacoAlias: 'css',
+    allowExec: false,
+    initVal: require('./constants/css.txt')
+  },
+  'JavaScript V8': {
+    monacoAlias: 'javascript',
+    allowExec: true,
+    initVal: require('./constants/v8.txt')
+  },
+  'Node.js': {
+    monacoAlias: 'javascript',
+    allowExec: true,
+    initVal: require('./constants/v8.txt')
+  },
+  'TypeScript': {
+    monacoAlias: 'typescript',
+    allowExec: true,
+    initVal: require('./constants/v8.txt')
+  },
+  'JSON': {
+    monacoAlias: 'json',
+    allowExec: false,
+    initVal: '{}'
+  },
+  'Markdown': {
+    monacoAlias: 'markdown',
+    allowExec: false,
+    initVal: '## Hello, world'
+  }
+} as const;
 
-export type SUPPORT_LANGUAGES_TYPE = typeof SUPPORT_LANGUAGES[number];
+export type SUPPORT_LANGUAGES_TYPE = keyof typeof SUPPORT_LANGUAGES;
 
 // @ts-ignore Semi 2.5.0 Button DTS 有问题
 const SubmitButton = withAuth({})(Button);
 
 interface IProps {
-  language: typeof SUPPORT_LANGUAGES[number];
+  language: SUPPORT_LANGUAGES_TYPE;
   onChange?: (value: string, ev: monaco.editor.IModelContentChangedEvent) => void;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
@@ -57,7 +83,7 @@ function CodeEditor(props: IProps) {
   React.useEffect(() => {
     if (!!editorElRef.current) {
       editorRef.current = monaco.editor.create(editorElRef.current, {
-        language: props.language,
+        // language: SUPPORT_LANGUAGES[props.language].monacoAlias,
         minimap: { enabled: false },
         wordWrap: 'on',
         automaticLayout: true,
@@ -67,7 +93,7 @@ function CodeEditor(props: IProps) {
         tabSize: 2,
         insertSpaces: true,
         overviewRulerLanes: 0,
-        value: props.value ?? props.defaultValue ?? ''
+        // value: props.value ?? props.defaultValue ?? SUPPORT_LANGUAGES[props.language].initVal ?? ''
       });
 
       typeof props.onInitInstance === 'function' && props.onInitInstance(editorRef.current);
@@ -76,6 +102,17 @@ function CodeEditor(props: IProps) {
     return () => {
       editorRef.current?.dispose?.();
     };
+  }, []);
+
+  React.useEffect(() => {
+    const model = editorRef.current?.getModel();
+
+    if (!!model) {
+      const langConf = SUPPORT_LANGUAGES[props.language];
+
+      monaco.editor.setModelLanguage(model, langConf.monacoAlias);
+      model.setValue(langConf.initVal);
+    }
   }, [props.language]);
 
   React.useEffect(() => {
@@ -138,7 +175,7 @@ function CodeEditor(props: IProps) {
       <SubmitButton
         icon={<IconTreeTriangleRight />}
         type={'secondary'}
-        disabled={['css', 'json'].includes(props.language)}
+        disabled={!SUPPORT_LANGUAGES[props.language].allowExec}
         auth={{
           tooltips: { content: t('不支持提交的语种') }
         }}

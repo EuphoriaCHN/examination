@@ -16,7 +16,7 @@ function Exercise() {
   const { t } = useTranslation();
   const [record, setRecord] = React.useState<IQuestionItem>();
   const [loading, setLoading] = React.useState(false);
-  const [activeLang, setActiveLang] = React.useState<SUPPORT_LANGUAGES_TYPE>('javascript');
+  const [activeLang, setActiveLang] = React.useState<SUPPORT_LANGUAGES_TYPE>('Node.js');
 
   // 随机加载一个题目
   const loadQuestion = React.useCallback(async () => {
