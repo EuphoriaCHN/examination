@@ -76,6 +76,10 @@ interface IQuestionItem extends _IBaseStructure {
    */
   level: 0 | 1 | 2 | 3 | 4;
   /**
+   * 题目类型
+   */
+  questionType: 0 | 1 | 2 | 3;
+  /**
    * 题目热度
    */
   hotCount: number;

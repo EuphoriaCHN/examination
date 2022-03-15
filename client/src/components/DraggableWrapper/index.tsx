@@ -2,16 +2,21 @@ import React from 'react';
 
 import './index.scss';
 
+type HiddenType = 'left' | 'right' | null;
 interface IProps {
   style?: React.CSSProperties;
   children: [JSX.Element, JSX.Element];
   minWidthRatio?: number;
+  closeRatio?: number;
+  defaultHiddenType?: HiddenType;
 }
 
 const BAR_WIDTH = 8 as const;
 const DEFAULT_MIN_WIDTH_RATIO = 0.35;
 
 function DraggableWrapper(props: IProps) {
+  const [hiddenBlock, setHiddenBlock] = React.useState<HiddenType>(props.defaultHiddenType ?? null);
+
   const boxElRef = React.useRef<HTMLDivElement>(null);
   const leftElRef = React.useRef<HTMLDivElement>(null);
   const rightElRef = React.useRef<HTMLDivElement>(null);
@@ -22,6 +27,9 @@ function DraggableWrapper(props: IProps) {
 
   const minWidthLeftRatio = props.minWidthRatio ?? DEFAULT_MIN_WIDTH_RATIO;
   const maxWidthLeftRatio = 1 - minWidthLeftRatio;
+
+  const minCloseRatio = props.closeRatio ?? -1;
+  const maxCloseRatio = 1 - minCloseRatio;
 
   const handleBarMouseDown = React.useCallback((ev: MouseEvent) => {
     if (barElRef.current?.isEqualNode(ev.target as any)) {
@@ -50,8 +58,19 @@ function DraggableWrapper(props: IProps) {
       offsetX = boxElClientWidthRef.current * maxWidthLeftRatio;
     }
 
-    const barLeft = offsetX - BAR_WIDTH / 2;
-    const leftElWidth = offsetX - BAR_WIDTH / 2;
+    // 设置了关闭阈值
+    if (ratio < minCloseRatio) {
+      offsetX = 0;
+      setHiddenBlock('left');
+    } else if (ratio > maxCloseRatio) {
+      offsetX = boxElClientWidthRef.current - BAR_WIDTH / 2;
+      setHiddenBlock('right');
+    } else {
+      setHiddenBlock(null);
+    }
+
+    const barLeft = Math.max(offsetX - BAR_WIDTH / 2, 0);
+    const leftElWidth = Math.max(offsetX - BAR_WIDTH / 2, 0);
     const rightElWidth = boxElClientWidthRef.current - offsetX - BAR_WIDTH / 2;
 
     // 修改 bar 的位置
@@ -59,7 +78,7 @@ function DraggableWrapper(props: IProps) {
     // 修改左右孩子的宽度
     leftElRef.current!.style.width = `${leftElWidth}px`;
     rightElRef.current!.style.width = `${rightElWidth}px`;
-  }, [minWidthLeftRatio, maxWidthLeftRatio]);
+  }, [minWidthLeftRatio, maxWidthLeftRatio, minCloseRatio, maxCloseRatio]);
 
   const handleBoxResize = React.useCallback((entry: ResizeObserverEntry[], ob: ResizeObserver) => {
     // 变的不是宽度
@@ -127,10 +146,10 @@ function DraggableWrapper(props: IProps) {
       ref={boxElRef}
     >
       <div className={'draggable-wrapper-item'} ref={leftElRef}>
-        {props.children[0]}
+        {hiddenBlock !== 'left' && props.children[0]}
       </div>
       <div className={'draggable-wrapper-item'} ref={rightElRef}>
-        {props.children[1]}
+        {hiddenBlock !== 'right' && props.children[1]}
       </div>
       <div
         className={'draggable-wrapper-bar'}

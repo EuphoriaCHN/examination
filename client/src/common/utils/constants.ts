@@ -14,6 +14,19 @@ export const enum QuestionDifficultyLevel {
 };
 
 /**
+ * 题目类型
+ */
+export const enum QuestionType {
+  // 选择
+  Choice = 0,
+  MultiChoice = 1,
+  // 主观题
+  Subjective = 2,
+  // 编程
+  Programming = 3
+}
+
+/**
  * 用户权限
  */
 export const enum AuthLevel {
@@ -21,6 +34,16 @@ export const enum AuthLevel {
   Manager = 1,
   User = 2
 }
+
+/**
+ * 题目类型 Label
+ */
+export const QuestionTypeLabel = {
+  [QuestionType.Choice]: I18n.t('单项题'),
+  [QuestionType.MultiChoice]: I18n.t('多选题'),
+  [QuestionType.Subjective]: I18n.t('主观题'),
+  [QuestionType.Programming]: I18n.t('编程题'),
+} as const;
 
 /**
  * 题目难度 Label

@@ -74,7 +74,7 @@ function QuestionViewer(props: IProps) {
           tab={t('题目描述')}
           itemKey='description'
         >
-          <DraggableWrapper style={contentStyle}>
+          <DraggableWrapper style={contentStyle} closeRatio={0.1}>
             <QuestionDescription
               record={record}
               loading={loading}

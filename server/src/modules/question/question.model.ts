@@ -15,6 +15,19 @@ export const enum QuestionDifficultyLevel {
   HELL = 4
 };
 
+/**
+ * 题目类型
+ */
+export const enum QuestionType {
+  // 选择
+  Choice = 0,
+  MultiChoice = 1,
+  // 主观题
+  Subjective = 2,
+  // 编程
+  Programming = 3
+}
+
 @Entity()
 export class QuestionModel extends BaseModel {
   constructor(opts: Partial<QuestionModel> = {}) {
@@ -94,4 +107,22 @@ export class QuestionModel extends BaseModel {
     default: 0
   })
   hotCount: number;
+
+  /**
+   * 题目类型
+   */
+  @Column({
+    type: 'int',
+    enum: [
+      QuestionType.Choice,
+      QuestionType.MultiChoice,
+      QuestionType.Subjective,
+      QuestionType.Programming
+    ],
+    transformer: {
+      to: (val: number) => val.toString(),
+      from: (val: string) => parseInt(val)
+    }
+  })
+  questionType: QuestionType;
 }
